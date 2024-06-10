@@ -1,8 +1,14 @@
 <template>
+    <div>
+        <div class="mb-6"> 
+            <div> <span style="font-size: 1.4rem; font-weight: 500; font-family:'Times New Roman', Times, serif"> Registro de datos personales </span></div>
+            <div style="margin-top: -6px;">Paso 1 de 5</div>
+        </div>
+    </div>
     <div class="flex justify-center" style="">
         <div class="flex justify-center">
             <a-row style="display:flex; justify-content:center;">
-                <a-col :span="24">
+                <a-col :span="24" class="">
                     <a-form
                         ref="formDatos"
                         name="form"
@@ -11,11 +17,11 @@
                     >
                     <a-row>
                         <div style="margin-top: -10px; width: 100%; display: flex; justify-content: center">
-                            <Foto/>
+                            <!-- <Foto/> -->
                         </div>  
                     </a-row>
                     <a-row :gutter="16">
-                        <a-col :xs="24" :sm="12" :md="8" :lg="8">
+                        <a-col :xs="24" :sm="12" :md="8" :lg="12">
                             <div>
                                 <label>Sexo</label>
                                 <a-form-item
@@ -27,43 +33,19 @@
                                             style="">
                                             <a-select-option :value="1">Masculino</a-select-option>
                                             <a-select-option :value="2">Femenino</a-select-option>    
-                                            <template #suffixIcon>
+                                            <!-- <template #suffixIcon>
                                             <a-button type="primary" style="padding: 0px 3px; margin-right:-11px; border-radius: 0px 5px 5px 0px; background: gray;">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                                 </a-button>
-                                            </template>
+                                            </template> -->
                                         </a-select>
                                     </div>
                                 </a-form-item>
                             </div>   
                         </a-col>           
                         
-                        <!-- <a-col :xs="24" :sm="12" :md="4" :lg="4">
-                            <div>
-                                <label>Tipo Doc</label>
-                                <a-form-item
-                                    name="tipo_doc"
-                                    :rules="[{ required: true, message: 'Escoja el tipo', trigger: 'change' },]">
-                                    <div>
-                                        <a-select
-                                            v-model:value="form.tipo_doc"
-                                            style="">
-                                            <a-select-option :value="1">DNI</a-select-option>
-                                            <a-select-option :value="2">Carnet. Ext</a-select-option>    
-                                            <template #suffixIcon>
-                                            <a-button type="primary" style="padding: 0px 3px; margin-right:-11px; border-radius: 0px 5px 5px 0px; background: gray;">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                                </a-button>
-                                            </template>
-                                        </a-select>
-                                    </div>
-                                </a-form-item>
-                            </div>   
-                        </a-col>   -->
-                        
-                        
                             
-                        <a-col :xs="24" :sm="12" :md="8" :lg="8">
+                        <a-col :xs="24" :sm="12" :md="8" :lg="12">
                             <label v-if="form.tipo_doc === 1">N° documento <span style="color:red;">*</span></label>
                             <label v-else>N° Carnet Ext.</label>
                             <a-form-item 
@@ -79,181 +61,40 @@
                                 style="height: 32px;"
                                 >
                                 <template #suffix>
-                                    <a-button
-                                    type="primary"
-                                    style="padding: 0px 3px; margin-right:-12px; border-radius: 0px 5px 5px 0px; background: gray; width: 34px;"
-                                    >
-                                    <svg fill="#FFFFFF"  version="1.1" id="Artwork" width="24" height="24" stroke="white" stroke-width="2"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-                                            viewBox="0 0 512 512" enable-background="new 0 0 24 24" xml:space="preserve">
-                                        <g>
-                                            <circle cx="99.3" cy="273.5" r="15.3"/>
-                                            <path d="M162,288.8L162,288.8c8.5,0,15.3-6.9,15.3-15.3c0-8.5-6.9-15.3-15.3-15.3l0,0c-8.5,0-15.3,6.9-15.3,15.3
-                                                C146.7,282,153.5,288.8,162,288.8z"/>
-                                            <circle cx="224.6" cy="273.5" r="15.3"/>
-                                            <circle cx="287.3" cy="273.5" r="15.3"/>
-                                            <circle cx="350" cy="273.5" r="15.3"/>
-                                            <circle cx="412.7" cy="273.5" r="15.3"/>
-                                            <circle cx="130.7" cy="338.5" r="15.3"/>
-                                            <circle cx="193.3" cy="338.5" r="15.3"/>
-                                            <circle cx="256" cy="338.5" r="15.3"/>
-                                            <circle cx="318.6" cy="338.5" r="15.3"/>
-                                            <circle cx="381.3" cy="338.5" r="15.3"/>
-                                            <path d="M134.5,403.4c0,6.8,5.5,12.3,12.3,12.3h218.6c6.8,0,12.3-5.5,12.3-12.3s-5.5-12.3-12.3-12.3H146.7
-                                                C139.9,391.2,134.5,396.6,134.5,403.4z"/>
-                                            <path d="M296.4,122.9h70.9c27.3,0,49.6-22.2,49.6-49.6s-22.2-49.6-49.6-49.6l-240.5,0.1c-6.8,0-12.2,5.5-12.2,12.3
-                                                c0,6.8,5.5,12.2,12.3,12.2h0l240.5-0.1c13.8,0,25.1,11.2,25.1,25.1s-11.2,25.1-25.1,25.1h-70.9c-29.6,0-53.7,24.1-53.7,53.7v36.7
-                                                H39.3c-15.6,0-28.3,12-28.3,26.7v246c0,14.7,12.7,26.7,28.3,26.7h433.4c15.6,0,28.3-12,28.3-26.7v-246c0-14.7-12.7-26.7-28.3-26.7
-                                                H267.3v-36.7C267.3,136,280.3,122.9,296.4,122.9z M476.5,215.5v246c0,0.9-1.5,2.2-3.8,2.2H39.3c-2.3,0-3.8-1.3-3.8-2.2v-246
-                                                c0-0.9,1.5-2.2,3.8-2.2h433.4C475.1,213.2,476.5,214.7,476.5,215.5z"/>
-                                        </g>
-                                        </svg>
-                                    </a-button>
                                 </template>
                                 </a-input>
                             </a-form-item>
                         </a-col>
-                        <a-col :xs="24" :sm="12" :md="8" :lg="8">
+                        <a-col :xs="24" :sm="12" :md="12" :lg="12">
                             <label>Nombres<span style="color:red;">*</span></label>
                             <a-form-item name="nombres" :rules="[{ required: true, message: 'Ingrese los nombres' }]">
                             <a-input v-model:value="form.nombres" :disabled="!form.terminos" style="height: 32px;">
-                                <template #suffix>
-                                    <a-button
-                                    type="primary"
-                                    style="padding: 0px 3px; margin-right:-12px; border-radius: 0px 5px 5px 0px; background: gray; width: 34px;"
-                                    >
-                                    <svg fill="#FFFFFF"  version="1.1" id="Artwork" width="24" height="24" stroke="white" stroke-width="2"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-                                            viewBox="0 0 512 512" enable-background="new 0 0 24 24" xml:space="preserve">
-                                        <g>
-                                            <circle cx="99.3" cy="273.5" r="15.3"/>
-                                            <path d="M162,288.8L162,288.8c8.5,0,15.3-6.9,15.3-15.3c0-8.5-6.9-15.3-15.3-15.3l0,0c-8.5,0-15.3,6.9-15.3,15.3
-                                                C146.7,282,153.5,288.8,162,288.8z"/>
-                                            <circle cx="224.6" cy="273.5" r="15.3"/>
-                                            <circle cx="287.3" cy="273.5" r="15.3"/>
-                                            <circle cx="350" cy="273.5" r="15.3"/>
-                                            <circle cx="412.7" cy="273.5" r="15.3"/>
-                                            <circle cx="130.7" cy="338.5" r="15.3"/>
-                                            <circle cx="193.3" cy="338.5" r="15.3"/>
-                                            <circle cx="256" cy="338.5" r="15.3"/>
-                                            <circle cx="318.6" cy="338.5" r="15.3"/>
-                                            <circle cx="381.3" cy="338.5" r="15.3"/>
-                                            <path d="M134.5,403.4c0,6.8,5.5,12.3,12.3,12.3h218.6c6.8,0,12.3-5.5,12.3-12.3s-5.5-12.3-12.3-12.3H146.7
-                                                C139.9,391.2,134.5,396.6,134.5,403.4z"/>
-                                            <path d="M296.4,122.9h70.9c27.3,0,49.6-22.2,49.6-49.6s-22.2-49.6-49.6-49.6l-240.5,0.1c-6.8,0-12.2,5.5-12.2,12.3
-                                                c0,6.8,5.5,12.2,12.3,12.2h0l240.5-0.1c13.8,0,25.1,11.2,25.1,25.1s-11.2,25.1-25.1,25.1h-70.9c-29.6,0-53.7,24.1-53.7,53.7v36.7
-                                                H39.3c-15.6,0-28.3,12-28.3,26.7v246c0,14.7,12.7,26.7,28.3,26.7h433.4c15.6,0,28.3-12,28.3-26.7v-246c0-14.7-12.7-26.7-28.3-26.7
-                                                H267.3v-36.7C267.3,136,280.3,122.9,296.4,122.9z M476.5,215.5v246c0,0.9-1.5,2.2-3.8,2.2H39.3c-2.3,0-3.8-1.3-3.8-2.2v-246
-                                                c0-0.9,1.5-2.2,3.8-2.2h433.4C475.1,213.2,476.5,214.7,476.5,215.5z"/>
-                                        </g>
-                                        </svg>
-                                    </a-button>
-                                </template>
+                                <template #suffix></template>
                                 </a-input>
                             </a-form-item>
                         </a-col>
 
-                        <a-col :xs="24" :sm="12" :md="8" :lg="8">
+                        <a-col :xs="24" :sm="12" :md="12" :lg="12">
                             <label>Primer Apellido<span style="color:red;">*</span></label>
                             <a-form-item name="paterno" :rules="[{ required: true, message: 'Ingrese los nombres' }]">
                             <a-input v-model:value="form.paterno" :disabled="!form.terminos" style="height: 32px;">
                                 <template #suffix>
-                                    <a-button
-                                    type="primary"
-                                    style="padding: 0px 3px; margin-right:-12px; border-radius: 0px 5px 5px 0px; background: gray; width: 34px;"
-                                    >
-                                    <svg fill="#FFFFFF"  version="1.1" id="Artwork" width="24" height="24" stroke="white" stroke-width="2"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-                                            viewBox="0 0 512 512" enable-background="new 0 0 24 24" xml:space="preserve">
-                                        <g>
-                                            <circle cx="99.3" cy="273.5" r="15.3"/>
-                                            <path d="M162,288.8L162,288.8c8.5,0,15.3-6.9,15.3-15.3c0-8.5-6.9-15.3-15.3-15.3l0,0c-8.5,0-15.3,6.9-15.3,15.3
-                                                C146.7,282,153.5,288.8,162,288.8z"/>
-                                            <circle cx="224.6" cy="273.5" r="15.3"/>
-                                            <circle cx="287.3" cy="273.5" r="15.3"/>
-                                            <circle cx="350" cy="273.5" r="15.3"/>
-                                            <circle cx="412.7" cy="273.5" r="15.3"/>
-                                            <circle cx="130.7" cy="338.5" r="15.3"/>
-                                            <circle cx="193.3" cy="338.5" r="15.3"/>
-                                            <circle cx="256" cy="338.5" r="15.3"/>
-                                            <circle cx="318.6" cy="338.5" r="15.3"/>
-                                            <circle cx="381.3" cy="338.5" r="15.3"/>
-                                            <path d="M134.5,403.4c0,6.8,5.5,12.3,12.3,12.3h218.6c6.8,0,12.3-5.5,12.3-12.3s-5.5-12.3-12.3-12.3H146.7
-                                                C139.9,391.2,134.5,396.6,134.5,403.4z"/>
-                                            <path d="M296.4,122.9h70.9c27.3,0,49.6-22.2,49.6-49.6s-22.2-49.6-49.6-49.6l-240.5,0.1c-6.8,0-12.2,5.5-12.2,12.3
-                                                c0,6.8,5.5,12.2,12.3,12.2h0l240.5-0.1c13.8,0,25.1,11.2,25.1,25.1s-11.2,25.1-25.1,25.1h-70.9c-29.6,0-53.7,24.1-53.7,53.7v36.7
-                                                H39.3c-15.6,0-28.3,12-28.3,26.7v246c0,14.7,12.7,26.7,28.3,26.7h433.4c15.6,0,28.3-12,28.3-26.7v-246c0-14.7-12.7-26.7-28.3-26.7
-                                                H267.3v-36.7C267.3,136,280.3,122.9,296.4,122.9z M476.5,215.5v246c0,0.9-1.5,2.2-3.8,2.2H39.3c-2.3,0-3.8-1.3-3.8-2.2v-246
-                                                c0-0.9,1.5-2.2,3.8-2.2h433.4C475.1,213.2,476.5,214.7,476.5,215.5z"/>
-                                        </g>
-                                        </svg>
-                                    </a-button>
                                 </template>
                                 </a-input>
                             </a-form-item>
                         </a-col>
 
-                        <a-col :xs="24" :sm="12" :md="8" :lg="8">
+                        <a-col :xs="24" :sm="12" :md="12" :lg="12">
                             <label>Segundo Apellido<span style="color:red;">*</span></label>
-                            <a-form-item name="materno" :rules="[{ required: true, message: 'Ingrese los nombres' }]">
+                            <a-form-item name="materno" :rules="[{ required: true, message: 'Ingrese segundo apellido' }]">
                             <a-input v-model:value="form.materno" :disabled="!form.terminos" style="height: 32px;">
                                 <template #suffix>
-                                    <a-button
-                                    type="primary"
-                                    style="padding: 0px 3px; margin-right:-12px; border-radius: 0px 5px 5px 0px; background: gray; width: 34px;"
-                                    >
-                                    <svg fill="#FFFFFF"  version="1.1" id="Artwork" width="24" height="24" stroke="white" stroke-width="2"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-                                            viewBox="0 0 512 512" enable-background="new 0 0 24 24" xml:space="preserve">
-                                        <g>
-                                            <circle cx="99.3" cy="273.5" r="15.3"/>
-                                            <path d="M162,288.8L162,288.8c8.5,0,15.3-6.9,15.3-15.3c0-8.5-6.9-15.3-15.3-15.3l0,0c-8.5,0-15.3,6.9-15.3,15.3
-                                                C146.7,282,153.5,288.8,162,288.8z"/>
-                                            <circle cx="224.6" cy="273.5" r="15.3"/>
-                                            <circle cx="287.3" cy="273.5" r="15.3"/>
-                                            <circle cx="350" cy="273.5" r="15.3"/>
-                                            <circle cx="412.7" cy="273.5" r="15.3"/>
-                                            <circle cx="130.7" cy="338.5" r="15.3"/>
-                                            <circle cx="193.3" cy="338.5" r="15.3"/>
-                                            <circle cx="256" cy="338.5" r="15.3"/>
-                                            <circle cx="318.6" cy="338.5" r="15.3"/>
-                                            <circle cx="381.3" cy="338.5" r="15.3"/>
-                                            <path d="M134.5,403.4c0,6.8,5.5,12.3,12.3,12.3h218.6c6.8,0,12.3-5.5,12.3-12.3s-5.5-12.3-12.3-12.3H146.7
-                                                C139.9,391.2,134.5,396.6,134.5,403.4z"/>
-                                            <path d="M296.4,122.9h70.9c27.3,0,49.6-22.2,49.6-49.6s-22.2-49.6-49.6-49.6l-240.5,0.1c-6.8,0-12.2,5.5-12.2,12.3
-                                                c0,6.8,5.5,12.2,12.3,12.2h0l240.5-0.1c13.8,0,25.1,11.2,25.1,25.1s-11.2,25.1-25.1,25.1h-70.9c-29.6,0-53.7,24.1-53.7,53.7v36.7
-                                                H39.3c-15.6,0-28.3,12-28.3,26.7v246c0,14.7,12.7,26.7,28.3,26.7h433.4c15.6,0,28.3-12,28.3-26.7v-246c0-14.7-12.7-26.7-28.3-26.7
-                                                H267.3v-36.7C267.3,136,280.3,122.9,296.4,122.9z M476.5,215.5v246c0,0.9-1.5,2.2-3.8,2.2H39.3c-2.3,0-3.8-1.3-3.8-2.2v-246
-                                                c0-0.9,1.5-2.2,3.8-2.2h433.4C475.1,213.2,476.5,214.7,476.5,215.5z"/>
-                                        </g>
-                                        </svg>
-                                    </a-button>
                                 </template>
                                 </a-input>
                             </a-form-item>
                         </a-col>
 
-
-                        <a-col :xs="24" :sm="12" :md="8" :lg="8">
-                            <label>Primer apellido<span style="color:red;">*</span></label>
-                            <a-form-item name="paterno" :rules="[{ required: true, message: 'Ingrese su primer apellido' }]">
-                            <a-input v-model:value="form.paterno" :disabled="!form.terminos"/>
-                            </a-form-item>
-                        </a-col>
-                        <a-col :xs="24" :sm="12" :md="8" :lg="8">
-                            <label>Segundo apellido <span style="color:red;">*</span></label>
-                            <a-form-item name="materno" :rules="[{ required: true, message: 'Ingrese su segundo apellido' }]">
-                            <a-input v-model:value="form.materno" :disabled="!form.terminos"/>
-                            </a-form-item>
-                        </a-col>
-                        <a-col :xs="24" :sm="12" :md="8" :lg="8">
-                            <label>Celular</label>
-                            <a-form-item 
-                                name="celular" 
-                                :rules="[
-                                    { required: true, message: 'Ingrese el N° de celular'},                                            
-                                    { min: 8, message: 'El numero debe tener almenos 9 digitos', trigger: 'blur'}]"
-                            >
-                            <a-input v-model:value="form.celular" @input="celularInput" :maxlength="9" :disabled="!form.terminos"/>
-                            </a-form-item>
-                        </a-col>
-                        <a-col :xs="24" :sm="12" :md="8" :lg="8">
+                        <a-col :xs="24" :sm="12" :md="12" :lg="12">
                             <label>Fec. Nacimiento</label>
                             <a-form-item
                                 name="fec_nac"
@@ -264,91 +105,9 @@
                             <a-date-picker style="width:100%;" placeholder="Seleccionar fec. nacimiento" v-model:value="form.fec_nac" format="DD/MM/YYYY" :disabled="!form.terminos"/>
                             </a-form-item>
                         </a-col>
-                        <a-col :xs="24" :sm="24" :md="24" :lg="24">
-                            <label>Correo electrónico</label>
-                            <a-form-item
-                                name="correo"
-                                :rules="[
-                                    { required: true, message: 'Ingresa un correo valido', trigger: 'change'},
-                                    { type: 'email', message: 'Ingresa un correo valido'}]"
-                            >
-                                <a-input v-model:value="form.correo" :disabled="!form.terminos"/>
-                            </a-form-item>
-                        </a-col>
-                    </a-row>
 
-                    <a-row>
-                        <div style="margin-top: -10px;">
-                            <h1 class="titulo-form">Datos Residencia</h1>
-                        </div>  
-                    </a-row>
-
-                    <a-row :gutter="16">
-                        <a-col :xs="24" :sm="12" :md="8" :lg="8">
-                            <label>País</label>
-                            <a-form-item name="pais">
-                                <a-select v-model:value="form.pais" placeholder="Seleccione el país" :disabled="!form.terminos">
-                                    <a-select-option :value="1">PERÚ</a-select-option>
-                                    <a-select-option :value="2">BOLIVIA</a-select-option>
-                                    <a-select-option :value="3">CHILE</a-select-option>
-                                    <a-select-option :value="4">VENEZUELA</a-select-option>
-                                    <a-select-option :value="5">COLOMBIA</a-select-option>
-                                    <a-select-option :value="6">ECUADOR</a-select-option>
-                                    <a-select-option :value="7">ARGENTINA</a-select-option>
-                                    <a-select-option :value="8">BRASIL</a-select-option>
-                                </a-select>
-                            </a-form-item>
-                        </a-col>
-                        <a-col :xs="24" :sm="24" :md="24" :lg="16">
-                            <label>Dep / Prov / Dist <span style="color:red;">*</span></label>
-                            <a-form-item name="ubigeo_residencia">
-                                <a-auto-complete
-                                    v-model:value="residencia"                
-                                    :options="residencias"
-                                    @select="onSelectResidencias"
-                                    :disabled="!form.terminos"
-                                >
-                                    <a-input 
-                                        placeholder="Departamento"
-                                        v-model:value="buscarResidencia"
-                                        @keypress="handleKeyPress"
-                                        :disabled="!form.terminos"
-                                    >
-                                        <template #suffix>
-                                            <a-tooltip title="Extra information">
-                                            <down-outlined/>
-                                            </a-tooltip>
-                                        </template>
-                                    </a-input>
-                                </a-auto-complete>
-                            </a-form-item>
-                        </a-col>
-
-                    </a-row>
-
-
-                    <a-row>
-                        <div style="margin-top: -10px;">
-                            <h1 class="titulo-form">Datos de estudios</h1>
-                        </div>  
-                    </a-row>
-
-                    <a-row :gutter="16">
-                        <a-col :xs="24" :sm="12" :md="8" :lg="8">
-                            <label>Grado de instrucción<span style="color:red;">*</span></label>
-                            <a-form-item name="grado">
-                                <a-select
-                                    v-model:value="form.grado"
-                                    style="width: 100%;" :disabled="!form.terminos">
-                                    <a-select-option :value="1">SECUNDARIA CONCLUIDA</a-select-option>
-                                    <a-select-option :value="2">SECUNDARIA 5TO AÑO</a-select-option>
-                                    <a-select-option :value="3">SECUNDARIA 4T0 AÑO</a-select-option>
-                                    <a-select-option :value="4">SECUNDARIA 3ER AÑO</a-select-option>
-                                </a-select>
-                            </a-form-item>
-                        </a-col>
-                        <a-col :xs="24" :sm="24" :md="24" :lg="16">
-                            <label>Ubic. colegio (dep/prov/dist)<span style="color:red;">*</span></label>
+                        <a-col :xs="24" :sm="24" :md="12" :lg="24">
+                            <label>Ubigeo (dep/prov/dist)<span style="color:red;">*</span></label>
                             <a-form-item name="ubigeo_colegio">
                                 <a-auto-complete
                                     v-model:value="ubicolegio"                
@@ -370,94 +129,40 @@
                                 </a-auto-complete>
                             </a-form-item>
                         </a-col>
-                        <a-col :xs="24" :sm="24" :md="24" :lg="24">
-                            <label>Nombre del colegio</label>
-                            <a-form-item>
-                                <a-auto-complete
-                                    v-model:value="colegio"                
-                                    :options="colegios"
-                                    @select="onSelectColegios"
-                                    :disabled="!form.terminos"
-                                >
-                                    <a-input
-                                        placeholder="Procedencia del Colegio"
-                                        v-model:value="buscarC"
-                                        @keypress="handleKeyPress"
-                                    >
-                                        <template #suffix>
-                                            <a-tooltip title="Extra information">
-                                            <down-outlined/>
-                                            </a-tooltip>
-                                        </template>
-                                    </a-input>
-                                </a-auto-complete>
-                            </a-form-item>
-                        </a-col>
-                    </a-row>
 
 
-                    <a-row>
-                        <div style="margin-top: -10px;">
-                            <h1 class="titulo-form">Datos del simulacro</h1>
-                        </div>  
-                    </a-row>
-
-                    <a-row :gutter="16">
-                        <a-col :xs="24" :sm="24" :md="24" :lg="24">
-                            <label>Programa de estudios<span style="color:red;">*</span></label>
-                            <a-form-item name="programa" :rules="[{ required: true, message: 'Seleccione el programa' }]">
-                                <a-select
-                                    v-model:value="form.programa"
-                                    style="width: 100%;" :disabled="!form.terminos">
-                                    <a-select-option :value='1'>ADMINISTRACIÓN</a-select-option>
-                                    <a-select-option :value='2'>ANTROPOLOGÍA</a-select-option>
-                                    <a-select-option :value='3'>ARQUITECTURA Y URBANISMO</a-select-option>
-                                    <a-select-option :value='4'>ARTE: ARTES PLÁSTICAS</a-select-option>
-                                    <a-select-option :value='5'>ARTE: DANZA</a-select-option>
-                                    <a-select-option :value='6'>ARTE: MÚSICA</a-select-option>
-                                    <a-select-option :value='8'>BIOLOGÍA: ECOLOGÍA</a-select-option>
-                                    <a-select-option :value='9'>BIOLOGÍA: MICROBIOLOGÍA Y LABORATORIO CLÍNICO</a-select-option>
-                                    <a-select-option :value='10'>BIOLOGÍA: PESQUERÍA</a-select-option>
-                                    <a-select-option :value='11'>CIENCIAS CONTABLES</a-select-option>
-                                    <a-select-option :value='12'>CIENCIAS DE LA COMUNICACIÓN SOCIAL</a-select-option>
-                                    <a-select-option :value='13'>CIENCIAS FÍSICO MATEMÁTICAS: FÍSICA</a-select-option>
-                                    <a-select-option :value='14'>CIENCIAS FÍSICO MATEMÁTICAS: MATEMÁTICAS</a-select-option>
-                                    <a-select-option :value='15'>DERECHO</a-select-option>
-                                    <a-select-option :value='16'>EDUCACIÓN FÍSICA</a-select-option>
-                                    <a-select-option :value='17'>EDUCACIÓN INICIAL</a-select-option>
-                                    <a-select-option :value='18'>EDUCACIÓN PRIMARIA</a-select-option>
-                                    <a-select-option :value='19'>EDUCACIÓN SECUNDARIA DE LA ESPECIALIDAD DE CIENCIA, TECNOLOGÍA Y AMBIENTE</a-select-option>
-                                    <a-select-option :value='20'>EDUCACIÓN SECUNDARIA DE LA ESPECIALIDAD DE CIENCIAS SOCIALES</a-select-option>
-                                    <a-select-option :value='21'>EDUCACIÓN SECUNDARIA DE LA ESPECIALIDAD DE LENGUA, LITERATURA, PSICOLOGÍA Y FILOSOFÍA</a-select-option>
-                                    <a-select-option :value='22'>EDUCACIÓN SECUNDARIA DE LA ESPECIALIDAD DE MATEMÁTICA, FÍSICA, COMPUTACIÓN E INFORMÁTICA</a-select-option>
-                                    <a-select-option :value='23'>ENFERMERÍA</a-select-option>
-                                    <a-select-option :value='24'>INGENIERÍA AGRÍCOLA</a-select-option>
-                                    <a-select-option :value='25'>INGENIERÍA AGROINDUSTRIAL</a-select-option>
-                                    <a-select-option :value='26'>INGENIERÍA AGRONÓMICA</a-select-option>
-                                    <a-select-option :value='27'>INGENIERÍA CIVIL</a-select-option>
-                                    <a-select-option :value='28'>INGENIERÍA DE MINAS</a-select-option>
-                                    <a-select-option :value='29'>INGENIERÍA DE SISTEMAS</a-select-option>
-                                    <a-select-option :value='30'>INGENIERÍA ECONÓMICA</a-select-option>
-                                    <a-select-option :value='31'>INGENIERÍA ELECTRÓNICA</a-select-option>
-                                    <a-select-option :value='32'>INGENIERÍA ESTADÍSTICA E INFORMÁTICA</a-select-option>
-                                    <a-select-option :value='33'>INGENIERÍA GEOLÓGICA</a-select-option>
-                                    <a-select-option :value='34'>INGENIERÍA MECÁNICA ELÉCTRICA</a-select-option>
-                                    <a-select-option :value='35'>INGENIERÍA METALÚRGICA</a-select-option>
-                                    <a-select-option :value='36'>INGENIERÍA QUÍMICA</a-select-option>
-                                    <a-select-option :value='37'>INGENIERÍA TOPOGRÁFICA Y AGRIMENSURA</a-select-option>
-                                    <a-select-option :value='38'>MEDICINA HUMANA</a-select-option>
-                                    <a-select-option :value='39'>MEDICINA VETERINARIA Y ZOOTECNIA</a-select-option>
-                                    <a-select-option :value='40'>NUTRICIÓN HUMANA</a-select-option>
-                                    <a-select-option :value='41'>ODONTOLOGÍA</a-select-option>
-                                    <a-select-option :value='42'>SOCIOLOGÍA</a-select-option>
-                                    <a-select-option :value='43'>TRABAJO SOCIAL</a-select-option>
-                                    <a-select-option :value='44'>TURISMO</a-select-option>
-                                </a-select>
+                        <a-col :xs="24" :sm="12" :md="12" :lg="24">
+                            <label>Dirección<span style="color:red;">*</span></label>
+                            <a-form-item name="direccion" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                            <a-input v-model:value="form.materno" :disabled="!form.terminos" style="height: 32px;">
+                                <template #suffix>
+                                </template>
+                                </a-input>
                             </a-form-item>
                         </a-col>
 
-                    </a-row>
 
+                        <a-col :xs="24" :sm="12" :md="8" :lg="8">
+                            <label>celular<span style="color:red;">*</span></label>
+                            <a-form-item name="direccion" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                            <a-input v-model:value="form.materno" :disabled="!form.terminos" style="height: 32px;">
+                                <template #suffix>
+                                </template>
+                                </a-input>
+                            </a-form-item>
+                        </a-col>
+
+
+                        <a-col :xs="24" :sm="12" :md="16" :lg="16">
+                            <label>Correo<span style="color:red;">*</span></label>
+                            <a-form-item name="direccion" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                            <a-input v-model:value="form.materno" :disabled="!form.terminos" style="height: 32px;">
+                                <template #suffix>
+                                </template>
+                                </a-input>
+                            </a-form-item>
+                        </a-col>
+                    </a-row>
 
                     <a-row>
                         <a-col :span="24">
