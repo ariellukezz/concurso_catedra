@@ -2,20 +2,11 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CandidatoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -41,6 +32,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/registro', fn () => Inertia::render('Publico/Registro/index'))->name('registro-index');
+Route::post('/save-candidato', [CandidatoController::class, 'Save']);
+Route::get('/get-candidato', [CandidatoController::class, 'getCandidato']);
+
+
 
 
 require __DIR__.'/auth.php';

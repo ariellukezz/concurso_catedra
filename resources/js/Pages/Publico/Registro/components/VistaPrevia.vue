@@ -4,11 +4,14 @@
         <a-col :span="24">
           <div class="container">
             <div class="header">
-              <a-avatar size="large" src="profile.jpg" />
+              <div style="scale: 0.6rem; overflow: hidden;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Logo_UNAP.png/710px-Logo_UNAP.png" style="object-fit:cover;">
+              </div>
+
               <div style="margin-left: 20px;">
-                <h1>John Doe</h1>
-                <p>Email: john.doe@example.com | Phone: (123) 456-7890</p>
-                <p>LinkedIn: <a href="https://linkedin.com/in/johndoe" target="_blank">linkedin.com/in/johndoe</a></p>
+                <h1>Ariel Luque</h1>
+                <p>Email: jhonar_theking@gmail.com</p>
+                <p>Celular: 928845434</p>
               </div>
             </div>
             <div class="section summary">

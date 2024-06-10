@@ -44,7 +44,7 @@
                             </div>   
                         </a-col>           
                         
-                            
+    
                         <a-col :xs="24" :sm="12" :md="8" :lg="12">
                             <label v-if="form.tipo_doc === 1">N° documento <span style="color:red;">*</span></label>
                             <label v-else>N° Carnet Ext.</label>
@@ -54,7 +54,7 @@
                                 { min: 8, message: 'El dni debe tener 8 digitos', trigger: 'blur'}]"
                             >
                                 <a-input
-                                v-if="form.tipo_doc === 1"
+                                v-if="form.tipo_doc == 1"
                                 v-model:value="form.nro_doc"
                                 @input="dniInput"
                                 :maxlength="8"
@@ -107,12 +107,12 @@
                         </a-col>
 
                         <a-col :xs="24" :sm="24" :md="12" :lg="24">
-                            <label>Ubigeo (dep/prov/dist)<span style="color:red;">*</span></label>
-                            <a-form-item name="ubigeo_colegio">
+                            <label>Ubigeo (dep/prov/dist) {{ form.ubigeo_residencia }}<span style="color:red;">*</span></label>
+                            <a-form-item name="ubigeo_residencia" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
                                 <a-auto-complete
-                                    v-model:value="ubicolegio"                
-                                    :options="ubicolegios"
-                                    @select="onSelectUbiColegios"
+                                    v-model:value="form.ubigeo_residencia"                
+                                    :options="residencias"
+                                    @select="onSelectResidencias"
                                     :disabled="!form.terminos"
                                 >
                                     <a-input
@@ -134,7 +134,7 @@
                         <a-col :xs="24" :sm="12" :md="12" :lg="24">
                             <label>Dirección<span style="color:red;">*</span></label>
                             <a-form-item name="direccion" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
-                            <a-input v-model:value="form.materno" :disabled="!form.terminos" style="height: 32px;">
+                            <a-input v-model:value="form.direccion" :disabled="!form.terminos" style="height: 32px;">
                                 <template #suffix>
                                 </template>
                                 </a-input>
@@ -144,8 +144,8 @@
 
                         <a-col :xs="24" :sm="12" :md="8" :lg="8">
                             <label>celular<span style="color:red;">*</span></label>
-                            <a-form-item name="direccion" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
-                            <a-input v-model:value="form.materno" :disabled="!form.terminos" style="height: 32px;">
+                            <a-form-item name="celular" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                            <a-input v-model:value="form.celular" :disabled="!form.terminos" style="height: 32px;">
                                 <template #suffix>
                                 </template>
                                 </a-input>
@@ -155,8 +155,8 @@
 
                         <a-col :xs="24" :sm="12" :md="16" :lg="16">
                             <label>Correo<span style="color:red;">*</span></label>
-                            <a-form-item name="direccion" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
-                            <a-input v-model:value="form.materno" :disabled="!form.terminos" style="height: 32px;">
+                            <a-form-item name="correo" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                            <a-input v-model:value="form.correo" :disabled="!form.terminos" style="height: 32px;">
                                 <template #suffix>
                                 </template>
                                 </a-input>
@@ -175,14 +175,13 @@
                     </a-form>
                 </a-col>
             </a-row>
-        </div>            
-           
+        </div>      
 
     </div>    
     
     <a-modal v-model:visible="modalAviso" :closable="false" :maskClosable="false" @ok="handleOk" @afterOpen="handleModalOpen">
         <div class="mb-3"> <span style="font-size:1.2rem; font-weight:bold;">Aviso importante</span> </div>
-        <div style="text-align: justify" > 
+        <div  style="text-align: justify"> 
             <Terminos :parentData="childData" @update-parent-data="handleUpdate" /> 
         </div>
         <template #footer>
@@ -200,14 +199,13 @@
 <script setup>
 import Terminos from './formulario3.vue'
 import Foto from './foto.vue'
-import { watch, watchEffect, computed, ref, unref, reactive, onMounted } from 'vue';
-import { DownOutlined, ExclamationCircleOutlined, FormOutlined, PrinterOutlined, DeleteOutlined, SearchOutlined, SaveOutlined, EyeOutlined} from '@ant-design/icons-vue';
+import { watch, computed, ref, reactive, onMounted } from 'vue';
+import { DownOutlined } from '@ant-design/icons-vue';
 import { notification } from 'ant-design-vue';
 import { Head } from '@inertiajs/vue3';
-
-import axios from 'axios';
-
 const baseUrl = window.location.origin;
+import axios from 'axios';
+import dayjs from 'dayjs';
 const residencia = ref(null)
 const redseleccionado = ref(null)
 const buscarResidencia = ref(null)
@@ -216,7 +214,7 @@ const ubicolegio = ref(null)
 const ubicolegioseleccionado = ref(null)
 const buscarColegio = ref(null)
 const ubicolegios = ref([])
-const modalAviso = ref(true);
+const modalAviso = ref(false);
 const colegio = ref(null)
 const colegioseleccionado = ref(null)
 const buscarC = ref(null)
@@ -230,282 +228,229 @@ const pagos = ref([]);
 const inscrito = ref(false);
 const pagado = ref(false);
 const form = reactive({  
-        tipo_doc: 1, 
-        nro_doc:'',
-        paterno:'',
-        materno:'', 
-        nombres:'', 
-        sexo: null, 
-        fec_nac:'',
-        celular:'',
-        correo:'',
-        pais:1,
-        ubigeo_residencia:'',
-        grado:1, 
-        ubigeo_colegio:null, 
-        id_colegio: null, 
-        terminos:false,
-        id_pago:null,
-    });
+    id: null,
+    tipo_doc: 1, 
+    nro_doc:'',
+    paterno:'',
+    materno:'', 
+    nombres:'', 
+    sexo: null, 
+    fec_nac:'',
+    celular:'',
+    correo:'',
+    ubigeo_residencia:'',
+    terminos:false
+});
     
-    const dniInput = (event) => { form.nro_doc = event.target.value.replace(/\D/g, ''); };
-    const celularInput = (event) => { form.celular = event.target.value.replace(/\D/g, ''); };
-    
-    const save = async () => {
-        // loading.value = true;
-        try {
-            const values = await formDatos.value.validateFields();
-            const response = await axios.post('/save-simulacro-participante', form);
-            if (response.status === 202) {
-                console.log(response.data.errors);
-            } else {
-                inscrito.value = true;
-                limpiar();
-                notificacion('success', response.data.titulo, response.data.mensaje);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-        // loading.value = false;
-    }
-    
-    watch(buscarC, ( newValue, oldValue ) => { getColegios() })
-    watch(ubicolegioseleccionado, ( newValue, oldValue ) => { getColegios() })
-    watch(buscarResidencia, ( newValue, oldValue ) => {  if(newValue.length >= 3){ getUbigeosResidencia() }})
-    watch(buscarColegio, ( newValue, oldValue ) => { if(newValue.length >= 3){ getUbigeosColegio() } })
-    watch(() => form.nro_doc, (newValue, oldValue) => { 
-        if(newValue.length == 8){ 
-            getInscrito();
-            if(inscrito.value === false){
-                getPagado();
-                if(pagado.value === false){
-                    getPagosOnline()
-                }    
-            }
-        } 
-    });
-    
-    const onSelectResidencias = (value, option) => { redseleccionado.value = option.key; form.ubigeo_residencia = option.key };
-    const onSelectUbiColegios = (value, option) => { ubicolegioseleccionado.value = option.key; };
-    const onSelectColegios = (value, option) => { ubicolegioseleccionado.value = option.key; form.id_colegio = option.key };
-    
-    const notificacion = (type, titulo, mensaje) => { notification[type]({ message: titulo,description: mensaje});};
-    
-    const getUbigeosResidencia = async () => {
-        axios.post("/get-ubigeo",{"term": buscarResidencia.value})
-        .then((response) => {
-            residencias.value = response.data.datos.data;
-            console.log('Datos recibidos:', residencias);
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.error('Error de servidor:', error.response.data);
-            } else if (error.request) {
-                console.error('Error de red:', error.request);
-                } else { console.error('Error de configuración:', error.message); }
-      });
-    }
-    
-    const getUbigeosColegio = async () => {
-        axios.post("/get-ubigeo",{"term": buscarColegio.value})
-        .then((response) => {
-            ubicolegios.value = response.data.datos.data;
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.error('Error de servidor:', error.response.data);
-            } else if (error.request) {
-                console.error('Error de red:', error.request);
-                } else { console.error('Error de configuración:', error.message); }
-      });
-    }
-    
-    
-    
-    
-    const getInscrito = async () => {
-        axios.get("/get-inscrito-simulacro/"+form.nro_doc)
-        .then((response) => {
-            inscrito.value = response.data.estado;
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.error('Error de servidor:', error.response.data);
-            } else if (error.request) {
-                console.error('Error de red:', error.request);
-            } else { console.error('Error de configuración:', error.message); }
-      });
-    }
-    
-    
-    const getPagado = async () => {
-        axios.get("/get-pago-simulacro/"+form.nro_doc)
-        .then((response) => {
-            pagado.value = response.data.estado;
-            form.id_pago = response.data.id_pago;
-            if(response.data.estado === true){
-                activeKey.value = '2';
-            }
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.error('Error de servidor:', error.response.data);
-            } else if (error.request) {
-                console.error('Error de red:', error.request);
-            } else { console.error('Error de configuración:', error.message); }
-      });
-    }
-    
-    
-    
-    const getColegios = async () => {
-        axios.post("/get-colegios-ubigeo",{"term": buscarC.value, ubigeo: ubicolegioseleccionado.value })
-        .then((response) => {
-            colegios.value = response.data.datos.data;
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.error('Error de servidor:', error.response.data);
-            } else if (error.request) {
-                console.error('Error de red:', error.request);
-                } else { console.error('Error de configuración:', error.message); }
-      });
-    }
-    
-    
-    function validateFechaNacimiento(rule, value) {
-      return new Promise((resolve, reject) => {
-        if (!value) {
-          reject(new Error(''));
+const dniInput = (event) => { form.nro_doc = event.target.value.replace(/\D/g, ''); };
+const celularInput = (event) => { form.celular = event.target.value.replace(/\D/g, ''); };
+
+const save = async () => {
+    // loading.value = true;
+    try {
+        const values = await formDatos.value.validateFields();
+        const response = await axios.post('/save-candidato', form);
+        if (response.status === 202) {
+            console.log(response.data.errors);
         } else {
-          const fechaNacimiento = new Date(value);
-          const fechaMinima = new Date();
-          const fechaMaxima = new Date();
-    
-          fechaMinima.setFullYear(fechaMinima.getFullYear() - 31);
-          fechaMaxima.setFullYear(fechaMaxima.getFullYear() - 13);
-    
-          if (fechaNacimiento > fechaMaxima || fechaNacimiento < fechaMinima) {
-            reject(new Error('Debes tener entre 13 y 20 años'));
-          } else {
-            resolve();
-          }
+            inscrito.value = true;
+            getCandidato();
+            limpiar();
+            notificacion('success', response.data.titulo, response.data.mensaje);
         }
-      });
+    } catch (error) {
+        console.error(error);
     }
-    
-    const pagosloading = ref(false);
-    const cancelar = () => { modalAviso.value = false, childData.value = false; }
-    const aceptarT = () => { form.terminos = true; modalAviso.value = false; }
-    const childData = ref(false);
-    
-    const handleUpdate = (newData) => {
-      childData.value = newData;
-    };
-    
-    
-    const imprimir = async () => {
-        loadingdowload.value = true;
-        imp();
-        await new Promise(resolve => setTimeout(resolve, 9000));
-        loadingdowload.value = false;
+    // loading.value = false;
+}
+
+const getCandidato = async () => {
+    const response = await axios.get('/get-candidato');
+    if (response.data.estado == true) {
+        if(response.data.datos.id){ form.id =  response.data.datos.id; }
+        form.tipo_doc = response.data.datos.tipo_doc;
+        form.nro_doc =  response.data.datos.nro_doc;
+        form.celular =  response.data.datos.celular;
+        form.paterno =  response.data.datos.paterno;
+        form.materno =  response.data.datos.materno;
+        form.nombres =  response.data.datos.nombres;
+        form.sexo =  response.data.datos.sexo;
+        if(response.data.datos.fec_nac){ form.fec_nac = dayjs(response.data.datos.fec_nac) }
+        form.correo=  response.data.datos.correo;
+        form.ubigeo_residencia =  response.data.datos.ubigeo_residencia;
+        form.direccion =  response.data.datos.direccion;
+        form.correo =  response.data.datos.correo;
+    }else{
+        modalAviso.value = true;
     }
-    
-    const imp = () => {
-      const pdfUrl = 'https://inscripciones.admision.unap.edu.pe/pdf-simulacro-inscripcion/' + form.nro_doc;
-      const link = document.createElement('a');
-      link.href = pdfUrl;
-      link.target = '_blank';
-      link.download = 'inscripcion-simulacro.pdf';
-      link.click();
-    };
-    
-    const estadoPago = ref(null);
-    
-    const limpiar = () => {
-        form.tipo_doc = 1; 
-        form.paterno ='';
-        form.materno = ''; 
-        form.nombres = ''; 
-        form.sexo = null; 
-        form.fec_nac = '';
-        form.celular = '';
-        form.correo = '';
-        form.pais = 1;
-        form.ubigeo_residencia = '';
-        form.grado = 1; 
-        form.ubigeo_colegio = null; 
-        form.id_colegio = null; 
-        form.terminos = false;
-        form.id_pago = null;
-        redseleccionado.valu = true
-        residencia.value = null
-        redseleccionado.value = null
-        buscarResidencia.value = null
-    }
-    
-    
-    const getPagosOnline = async () => {
-    
-        estadoPago.value = null;
-        axios.get("/get-pagos-simulacro-online/"+form.nro_doc)
-        .then((response) => {
-            if(response.data.data.length === 0){
-                estadoPago.value = "No tiene registrado ningun para el este Simulacro de Admisión 2023"
-                console.log(estadoPago.value);
-            }else{
-                pagos.value = response.data.data;
-            }
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.error('Error de servidor:', error.response.data);
-            } else if (error.request) {
-                console.error('Error de red:', error.request);
-                } else { console.error('Error de configuración:', error.message); }
-        });
-    
-    }
-    
-    
-    const enviarPago = async () => {
-        pagosloading.value = true;
-        axios.post("/subir-pagos",{"pagos": selectedItems.value, "dni": form.nro_doc  })
-        .then((response) => {
-            confirmarcion.value = response.data.estado;
-            form.id_pago = response.data.id_pago;
-            console.log(response.data.estado.estado)
-            if(response.data.estado === true) 
-            { 
-                activeKey.value = '2'
-            }
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.error('Error de servidor:', error.response.data);
-            } else if (error.request) {
-                console.error('Error de red:', error.request);
-                } else { console.error('Error de configuración:', error.message); }
-        });
-        pagosloading.value = false;
-    }
-    
-    
-    const toggleSelection = (item) => {
-      item.selected = !item.selected;
-    };
-    
-    const selectedItems = computed(() => {
-        if(pagos.value){
-            return pagos.value.filter((item) => item.selected);
-        }
-    
+
+
+}
+
+onMounted(() => {
+    getCandidato();
+})
+
+
+watch(buscarC, ( newValue, oldValue ) => { getColegios() })
+watch(buscarResidencia, ( newValue, oldValue ) => {  if(newValue.length >= 3){ getUbigeosResidencia() }})
+watch(() => form.nro_doc, (newValue, oldValue) => { 
+    if(newValue.length == 8){ 
+        getInscrito();
+    } 
+});
+
+const onSelectResidencias = (value, option) => { redseleccionado.value = option.key; form.ubigeo_residencia = option.key };
+
+
+const notificacion = (type, titulo, mensaje) => { notification[type]({ message: titulo,description: mensaje});};
+
+const getUbigeosResidencia = async () => {
+    axios.post("/get-ubigeo",{"term": buscarResidencia.value})
+    .then((response) => {
+        residencias.value = response.data.datos.data;
+        console.log('Datos recibidos:', residencias);
+    })
+    .catch((error) => {
+        if (error.response) {
+            console.error('Error de servidor:', error.response.data);
+        } else if (error.request) {
+            console.error('Error de red:', error.request);
+            } else { console.error('Error de configuración:', error.message); }
     });
-    
-    getUbigeosResidencia()
-    getUbigeosColegio()
-    
-    </script>
+}
+
+const getUbigeosColegio = async () => {
+    axios.post("/get-ubigeo",{"term": buscarColegio.value})
+    .then((response) => {
+        ubicolegios.value = response.data.datos.data;
+    })
+    .catch((error) => {
+        if (error.response) {
+            console.error('Error de servidor:', error.response.data);
+        } else if (error.request) {
+            console.error('Error de red:', error.request);
+            } else { console.error('Error de configuración:', error.message); }
+    });
+}
+
+
+
+const getInscrito = async () => {
+    axios.get("/get-inscrito-simulacro/"+form.nro_doc)
+    .then((response) => {
+        inscrito.value = response.data.estado;
+    })
+    .catch((error) => {
+        if (error.response) {
+            console.error('Error de servidor:', error.response.data);
+        } else if (error.request) {
+            console.error('Error de red:', error.request);
+        } else { console.error('Error de configuración:', error.message); }
+    });
+}
+
+const getColegios = async () => {
+    axios.post("/get-colegios-ubigeo",{"term": buscarC.value, ubigeo: ubicolegioseleccionado.value })
+    .then((response) => {
+        colegios.value = response.data.datos.data;
+    })
+    .catch((error) => {
+        if (error.response) {
+            console.error('Error de servidor:', error.response.data);
+        } else if (error.request) {
+            console.error('Error de red:', error.request);
+            } else { console.error('Error de configuración:', error.message); }
+    });
+}
+
+
+function validateFechaNacimiento(rule, value) {
+    return new Promise((resolve, reject) => {
+    if (!value) {
+        reject(new Error(''));
+    } else {
+        const fechaNacimiento = new Date(value);
+        const fechaMinima = new Date();
+        const fechaMaxima = new Date();
+
+        fechaMinima.setFullYear(fechaMinima.getFullYear() - 100);
+        fechaMaxima.setFullYear(fechaMaxima.getFullYear() - 18);
+
+        if (fechaNacimiento > fechaMaxima || fechaNacimiento < fechaMinima) {
+        reject(new Error('Debes tener entre 18 y 100 años'));
+        } else {
+        resolve();
+        }
+    }
+    });
+}
+
+const cancelar = () => { modalAviso.value = false, childData.value = false; }
+const aceptarT = () => { form.terminos = true; modalAviso.value = false; }
+const childData = ref(false);
+
+const handleUpdate = (newData) => {
+    childData.value = newData;
+};
+
+
+const imprimir = async () => {
+    loadingdowload.value = true;
+    imp();
+    await new Promise(resolve => setTimeout(resolve, 9000));
+    loadingdowload.value = false;
+}
+
+const imp = () => {
+    const pdfUrl = 'https://inscripciones.admision.unap.edu.pe/pdf-simulacro-inscripcion/' + form.nro_doc;
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.target = '_blank';
+    link.download = 'inscripcion-simulacro.pdf';
+    link.click();
+};
+
+const estadoPago = ref(null);
+
+const limpiar = () => {
+    form.tipo_doc = 1; 
+    form.paterno ='';
+    form.materno = ''; 
+    form.nombres = ''; 
+    form.sexo = null; 
+    form.fec_nac = '';
+    form.celular = '';
+    form.correo = '';
+    form.pais = 1;
+    form.ubigeo_residencia = '';
+    form.grado = 1; 
+    form.ubigeo_colegio = null; 
+    form.id_colegio = null; 
+    form.terminos = false;
+    form.id_pago = null;
+    redseleccionado.valu = true
+    residencia.value = null
+    redseleccionado.value = null
+    buscarResidencia.value = null
+}  
+
+
+const toggleSelection = (item) => {
+    item.selected = !item.selected;
+};
+
+const selectedItems = computed(() => {
+    if(pagos.value){
+        return pagos.value.filter((item) => item.selected);
+    }
+
+});
+
+getUbigeosResidencia()
+getUbigeosColegio()
+
+</script>
 <style scoped>
 
 </style>
