@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\TipoTituloController;
+use App\Http\Controllers\TituloController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\verPaso;
@@ -40,6 +41,12 @@ Route::get('/titulos', fn () => Inertia::render('Publico/Registro/titulos'))->na
 Route::post('/save-candidato', [CandidatoController::class, 'Save']);
 Route::get('/get-candidato', [CandidatoController::class, 'getCandidato']);
 Route::get('/get-tipo-titulos', [TipoTituloController::class, 'selectTipoTitulos']);
+
+
+Route::post('/cargar-titulos', [TituloController::class, 'cargarTitulo']);
+Route::get('/get-titulos-usuario', [TituloController::class, 'getTitulosUsuario']);
+Route::get('/eliminar-titulo/{id}', [TituloController::class, 'eliminarTitulo']);
+
 
 
 
