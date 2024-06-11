@@ -8,7 +8,6 @@
             </svg>
           </button>  
         </div>
-  
         <!-- <NavigationMobile /> -->
         <Navigation :style="{ 'width': sidewidth }" style="z-index: 1; transition: all 0.3s ease;"/>
         <div class="flex flex-col flex-1 w-full" style="position: absolute;">

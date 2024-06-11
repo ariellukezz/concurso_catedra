@@ -191,10 +191,8 @@
         </template>
     
     </a-modal>
-    
-    
 
-    </template>
+</template>
             
 <script setup>
 import Terminos from './formulario3.vue'
@@ -280,11 +278,10 @@ const getCandidato = async () => {
         form.ubigeo_residencia =  response.data.datos.ubigeo_residencia;
         form.direccion =  response.data.datos.direccion;
         form.correo =  response.data.datos.correo;
+        form.terminos =  true;
     }else{
         modalAviso.value = true;
     }
-
-
 }
 
 onMounted(() => {
