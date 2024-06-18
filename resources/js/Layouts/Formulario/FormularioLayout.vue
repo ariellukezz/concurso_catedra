@@ -33,16 +33,16 @@
   //import NavigationMobile from './NavigationMobile.vue';
   import {ref, onMounted, watch} from 'vue'
   
-  const sidewidth = ref('230px')
+  const sidewidth = ref('280px')
   const margin = ref('0px')
   
   const sidechange = () => {
     if( sidewidth.value === '0px'){
-      sidewidth.value = '230px';
+      sidewidth.value = '280px';
       margin.value = '0px';
     }else{
       sidewidth.value = '0px';
-      margin.value = '230px';
+      margin.value = '280px';
     }
   }
   const usu = ref(null) 
@@ -57,7 +57,7 @@
       if (window.innerWidth < 768) {
         sidewidth.value = '0px';
       } else {
-        sidewidth.value = '230px';
+        sidewidth.value = '280px';
       }
     };
     updateSidewidth();

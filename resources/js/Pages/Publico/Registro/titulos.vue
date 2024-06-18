@@ -22,13 +22,34 @@
                                 <a-button @click="abriPDf(titulo.url)" class="mr-2" style="width: 20px; height: 20px; padding-left: 3px; border: solid #1a2843 1px;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1a2843" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
                                 </a-button>
-                                <a-button danger @click="eliminarTitulo(item.id)" style="width: 20px; height: 20px; padding-left: 3px;">
+                                <a-button danger @click="eliminarTitulo(titulo.id)" style="width: 20px; height: 20px; padding-left: 3px;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                                 </a-button>
                             </div>
                         </div>
                         
-                        {{  titulo }}
+                        <!-- {{  titulo }} -->
+                    </a-card>
+                </div>
+                <div>
+                    <a-card class="p-0" @click="abrirModal()" style="margin-top: 0px; border: dotted 1px black; background: none; cursor: pointer;">
+                        <div class="flex justify-between" style="margin: -15px -10px;">
+                            <div class="">
+                                <div>
+                                    <span class="font-regular" style="font-size:1rem;">
+                                        Registrar nuevo
+                                    </span>
+                                </div>
+                                <div>
+                                    <!-- {{ titulo.tipo_nombre }} -->
+                                </div>
+                            </div>
+                            <div class="flex" style="margin-top: 0px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-square"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                            </div>
+                        </div>
+                        
+                        <!-- {{  titulo }} -->
                     </a-card>
                 </div>
             </a-col> 
@@ -130,7 +151,15 @@ import { message, Upload, Button } from 'ant-design-vue';
 import axios from 'axios';
 const baseUrl = window.location.origin;
 
-const modaltitulo = ref(true);
+const abrirModal = () => {
+    form.id =  null;
+    form.descripcion = "";
+    form.tipo =  null;
+    form.fileList = [];
+    modaltitulo.value = true;
+
+}
+const modaltitulo = ref(false);
 const titulos = ref([]);
 const tipos = ref([]);
 const modalPDF = ref(false);
