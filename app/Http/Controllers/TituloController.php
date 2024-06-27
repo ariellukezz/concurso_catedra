@@ -21,6 +21,9 @@ class TituloController extends Controller
 
             $titulo = new Titulo();
             $titulo->denominacion = $request->descripcion;
+            $titulo->institucion = $request->institucion;
+            $titulo->fec_expedicion = $request->fec_expedicion;
+            $titulo->reg_sunedu = $request->reg_sunedu;
             $titulo->id_tipo = $request->tipo;
             $titulo->url = "storage/".$path;
             $titulo->id_usuario = auth()->id();
@@ -34,7 +37,7 @@ class TituloController extends Controller
 
 
     public function getTitulosUsuario(){
-        $res = DB::select("SELECT titulos.id, titulos.denominacion, titulos.id_tipo, titulos.url, tipo_titulo.nombre AS tipo_nombre
+        $res = DB::select("SELECT titulos.id, titulos.institucion, titulos.fec_expedicion, titulos.reg_sunedu, titulos.denominacion, titulos.id_tipo, titulos.url, tipo_titulo.nombre AS tipo_nombre
         FROM titulos
         JOIN tipo_titulo ON titulos.id_tipo = tipo_titulo.id
         WHERE titulos.id_usuario = ".auth()->id());
@@ -58,7 +61,6 @@ class TituloController extends Controller
 
         $this->response['estado'] = true;
         return response()->json($this->response, 200);
-        // return response()->json(['success' => 'File deleted successfully'], 200);
     }
     
  

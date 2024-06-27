@@ -11,13 +11,18 @@
                                 <div class="">
                                     <div>
                                         <span class="font-bold" style="font-size:1rem;">
-                                            {{  titulo.titulo }}
-                                            {{ baseUrl }}
+                                            {{ titulo.institucion }}
                                         </span>
                                     </div>
                                     <div>
-                                        {{ titulo.autor }}
+                                         {{  titulo.cargo }}
                                     </div>
+                                    <div>
+                                        del <span class="font-bold" style="font-size: .8rem;"> {{ titulo.fec_inicio }} </span>
+                                        al <span class="font-bold" style="font-size: .8rem;"> {{ titulo.fec_fin }} </span>
+                                    </div>
+                                    <div><span style="font-size: .8rem;"> Experiencia {{ titulo.descripcion }}</span></div>
+                                    <div><span style="font-size: .8rem;"> Experiencia {{ baseUrl }}</span></div>
                                 </div>
                                 <div class="flex" style="margin-top: 0px;">
                                     <a-button @click="abriPDf(titulo.url)" class="mr-2" style="width: 20px; height: 20px; padding-left: 3px; border: solid #1a2843 1px;">
@@ -59,7 +64,7 @@
                 </a-col>
             </a-row>
     
-            <a-modal v-model:open="modaltitulo" title="Registro de investacion" @ok="handleOk">
+            <a-modal class="lg:w-50" v-model:open="modaltitulo" title="Registro de investacion" @ok="handleOk">
                 <a-form
                     ref="formDatos"
                     name="form"
@@ -69,9 +74,9 @@
                     <a-row :gutter="16">
 
                         <a-col :xs="24" :sm="24" :md="24" :lg="24">
-                            <label>Título<span style="color:red;">*</span></label>
-                            <a-form-item name="titulo" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
-                                <a-input v-model:value="form.titulo" style="height: 32px;">
+                            <label>Cargo<span style="color:red;">*</span></label>
+                            <a-form-item name="cargo" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                                <a-input v-model:value="form.cargo" style="height: 32px;">
                                     <template #suffix>
                                     </template>
                                 </a-input>
@@ -79,37 +84,29 @@
                         </a-col>
 
                         <a-col :xs="24" :sm="24" :md="24" :lg="24">
-                            <label>Autor<span style="color:red;">*</span></label>
-                            <a-form-item name="autor" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
-                                <a-input v-model:value="form.autor" style="height: 32px;">
+                            <label>Institucion<span style="color:red;">*</span></label>
+                            <a-form-item name="institucion" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                                <a-input v-model:value="form.institucion" style="height: 32px;">
                                     <template #suffix>
                                     </template>
                                 </a-input>
                             </a-form-item>
                         </a-col>
 
-                        <a-col :xs="24" :sm="24" :md="24" :lg="24">
-                            <label>Fec. publicacion<span style="color:red;">* </span>(DD/MM/AAAA)</label>
-                            <a-form-item name="fec_publicacion" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
-                                <a-date-picker style="width:100%;" placeholder="Seleccionar fec. publicación" v-model:value="form.fec_publicacion" format="DD/MM/YYYY"/>
+                        <a-col :xs="24" :sm="24" :md="12" :lg="12">
+                            <label>Fec. inicio<span style="color:red;">* </span>(DD/MM/AAAA)</label>
+                            <a-form-item name="fec_inicio" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                                <a-date-picker style="width:100%;" placeholder="Seleccionar fec. publicación" v-model:value="form.fec_inicio" format="DD/MM/YYYY"/>
                             </a-form-item>
                         </a-col>
-    
-                        <a-col :xs="24" :sm="24" :md="24" :lg="24">
-                            <label>Tipo<span style="color:red;">*</span></label>
-                            <a-form-item name="tipo" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
-                                <a-select
-                                    ref="select"
-                                    v-model:value="form.tipo"
-                                    style="width: 100%"
-                                    :options="tipos"
-                                    @focus="focus"
-                                    @change="selecionarTipo"
-                                >
-                                </a-select>
+
+                        <a-col :xs="24" :sm="24" :md="12" :lg="12">
+                            <label>Fec. fin<span style="color:red;">* </span>(DD/MM/AAAA)</label>
+                            <a-form-item name="fec_fin"  :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                                <a-date-picker style="width:100%;" placeholder="Seleccionar fec. publicación" v-model:value="form.fec_fin" format="DD/MM/YYYY"/>
                             </a-form-item>
                         </a-col>
-    
+        
                         <a-col :xs="24" :sm="24" :md="24" :lg="24">
                             <label>Archivo PDF (Max. 2mb)<span style="color:red;">*</span></label>
                             <a-form-item name="fileList" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
@@ -145,8 +142,8 @@
             <a-modal v-model:open="modalPDF" title="Registro de título" style="min-width: 900px;">
                 <a-row :gutter="16">
                     <a-col :xs="24" :sm="24" :md="24" :lg="24">
-                        <div class="mt-2" v-if="pdfItem">
-                            <iframe :src="'../'+baseUrl+'/'+pdfItem" width="100%" height="500px"></iframe>
+                        <div v-if="pdfItem">
+                            <iframe :src="baseUrl + '/' + pdfItem" width="100%" height="500px"></iframe>
                         </div>
                     </a-col>
                 </a-row>
@@ -163,11 +160,12 @@
 </template>
     
 <script setup>
-import { ref, reactive, watch } from 'vue';
+import { ref, reactive, watch, computed } from 'vue';
 import Layout from '@/Layouts/Formulario/FormularioLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { message } from 'ant-design-vue';
 import axios from 'axios';
+const baseUrl = window.location.origin;
 import { format, parse } from 'date-fns';
 
 const modaltitulo = ref(false);
@@ -178,17 +176,17 @@ const pdfItem = ref(null);
 
 const form = reactive({
     id: null,
-    titulo: null,
-    autor: null,
-    fec_publicacion: null,
-    tipo: null,
+    cargo: null,
+    institucion: null,
+    cargo: null,
+    duracion:null,
+    fec_inicio: null,
+    fec_fin: null,
     fileList: []
 });
 
 const abrirModal = () => {
     form.id =  null;
-    form.descripcion = "";
-    form.tipo =  null;
     form.fileList = [];
     modaltitulo.value = true;
 };
@@ -230,7 +228,7 @@ const eliminarTitulo = async (id) => {
 
 const getTitulos = async () => {
     try {
-        const response = await axios.get('/get-publicaciones');
+        const response = await axios.get('/get-experiencia-no-docente');
         if (response.data.estado) {
             titulos.value = response.data.datos;
         } else {
@@ -267,16 +265,17 @@ const beforeUpload = (file) => {
 const cargarDatos = async () => {
     const formData = new FormData();
     formData.append('file', form.fileList[0]);
-    formData.append('fec_publicacion', format(new Date(form.fec_publicacion), 'yyyy-MM-dd'));
-    formData.append('autor', form.autor);
-    formData.append('titulo', form.titulo);
-    formData.append('tipo', form.tipo);
+    formData.append('fec_inicio', format(new Date(form.fec_inicio), 'yyyy-MM-dd'));
+    formData.append('fec_fin', format(new Date(form.fec_fin), 'yyyy-MM-dd'));
+    formData.append('cargo', form.cargo);
+    formData.append('duracion', form.duracion);
+    formData.append('institucion', form.institucion);
 
     try {
         loading.value = true;
         uploadProgress.value = 0;
 
-        const response = await axios.post("subir-publicaciones", formData, {
+        const response = await axios.post("subir-experiencia-no-docente", formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: 'Bearer your-auth-token',
@@ -296,14 +295,6 @@ const cargarDatos = async () => {
     }
 };
 
-
-
-
-// const cambiarFormato = ( ) => {
-//     const parsedDate = parse(form.fec_publicacion, 'EEE, dd LLL yyyy HH:mm:ss \'GMT\'', new Date());
-//     form.fec_publicacion = format(parsedDate, 'yyyy-MM-dd');
-//     return form.fec_publicacion;
-// }
 
 getTitulos();
 getTipos();

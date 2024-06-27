@@ -34,7 +34,7 @@ class InvestigacionPublicacionController extends Controller
 
 
     public function getPublicaciones(){
-        $res = DB::select("SELECT pub.id, pub.id_tipo, pub.titulo, pub.url,  
+        $res = DB::select("SELECT pub.id, pub.id_tipo, pub.titulo, pub.url, pub.fec_publicacion,
             tipo.descripcion, tipo.participacion, tipo.puntaje
         FROM investigacionespublicaciones pub
         JOIN tipo_investigacion_publicacion tipo ON pub.id_tipo = tipo.id

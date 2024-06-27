@@ -1,26 +1,19 @@
 <template>
     <div>
-      <div class="flex h-screen bg-gray-100" style="position: relative; "> 
-        <div class="men" style="width: 40px; height: 40px; position: absolute; transition: all 0.3s ease; z-index: 11; top: 10px; padding-left: 15px;" :style="{'left': sidewidth, 'margin-left':margin  } ">
-          <button @click="sidechange" class="p-1 mr-5 -ml-1 rounded-md focus:outline-none focus:shadow-outline-purple" aria-label="Menu">
-            <svg class="w-5 h-5" aria-hidden="true" fill="white" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-            </svg>
-          </button>  
-        </div>
-        <!-- <NavigationMobile /> -->
-        <Navigation :style="{ 'width': sidewidth }" style="z-index: 1; transition: all 0.3s ease;"/>
-        <div class="flex flex-col flex-1 w-full" style="position: absolute;">
+      <div class="flex h-screen bg-gray-100"> 
+        <!-- <Navigation :style="{ 'width': sidewidth }" style="z-index: 1; transition: all 0.3s ease;"/> -->
+        <div class="flex flex-col flex-1 w-full">
           <TopMenu :usuario="usu"/>
-          <div  :style="{ 'margin-left':sidewidth }" style="z-index: 0; transition: all 0.3s ease;"> 
+          <div> 
             <main class="h-full overflow-y-auto" style="">
-              <div class="container px-0 mx-auto grid">
+              <div class="mx-auto grid">
                 <h2 class="my-1 text-xl font-semibold text-gray-700">
                   <slot name="header" />
                 </h2>
                 <slot/>
               </div>
             </main>
+
           </div>
         </div>
       </div>
@@ -28,21 +21,21 @@
   </template>
   
   <script setup>
-  import Navigation from './Navigation.vue';
+  // import Navigation from './Navigation.vue';
   import TopMenu from "./HeaderFormulario.vue";
   //import NavigationMobile from './NavigationMobile.vue';
   import {ref, onMounted, watch} from 'vue'
   
-  const sidewidth = ref('280px')
+  const sidewidth = ref('230px')
   const margin = ref('0px')
   
   const sidechange = () => {
     if( sidewidth.value === '0px'){
-      sidewidth.value = '280px';
+      sidewidth.value = '0px';
       margin.value = '0px';
     }else{
       sidewidth.value = '0px';
-      margin.value = '280px';
+      margin.value = '0px';
     }
   }
   const usu = ref(null) 
@@ -57,7 +50,7 @@
       if (window.innerWidth < 768) {
         sidewidth.value = '0px';
       } else {
-        sidewidth.value = '280px';
+        sidewidth.value = '0px';
       }
     };
     updateSidewidth();
@@ -70,8 +63,22 @@
     });
   });
   
-  </script>
-  <style scoped>
+</script>
+<style scoped>
   @media only screen and (max-width: 767px) { .men { display: none; } }
   
-  </style>
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #36365723;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+</style>

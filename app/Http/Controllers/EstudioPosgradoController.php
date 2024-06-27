@@ -8,8 +8,7 @@ use DB;
 
 class EstudioPosgradoController extends Controller
 {
-    public function subirEstudios(Request $request)
-    {
+    public function subirEstudios(Request $request) {
         $request->validate([
             'file' => 'required|file|mimes:jpg,png,pdf,doc,docx|max:2048',
             'denominacion' => 'required|string|max:255',
@@ -21,6 +20,10 @@ class EstudioPosgradoController extends Controller
 
             $titulo = new EstudioPosgrado();
             $titulo->denominacion = $request->denominacion;
+            $titulo->institucion = $request->institucion;
+            $titulo->semestres = $request->semestres;
+            $titulo->fec_inicio = $request->fec_inicio;
+            $titulo->fec_fin = $request->fec_fin;
             $titulo->id_tipo = $request->tipo;
             $titulo->url = "storage/".$path;
             $titulo->id_usuario = auth()->id();
@@ -32,9 +35,9 @@ class EstudioPosgradoController extends Controller
         return response()->json(['error' => 'File upload failed'], 400);
     }
 
-
     public function getEstudios(){
-        $res = DB::select("SELECT esp.id, esp.denominacion, esp.id_tipo, esp.url, tact.descripcion AS tipo_nombre
+        $res = DB::select("SELECT esp.id, esp.institucion, esp.semestres, esp.denominacion, esp.fec_inicio, esp.fec_fin, 
+            esp.id_tipo, esp.url, tact.descripcion AS tipo_nombre
             FROM estudiosposgrado esp
             JOIN tipos_estudio_actualizacion tact ON esp.id_tipo = tact.id
             WHERE esp.id_usuario = ".auth()->id());

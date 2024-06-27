@@ -12,14 +12,15 @@ class EstudioPosgrado extends Model
     protected $table = 'estudiosposgrado';
 
     protected $fillable = [
-        'id_usuario',
-        'id_tipo',
         'denominacion',
+        'institucion',
         'fec_inicio',
         'fec_fin',
         'estado',
+        'id_usuario',
+        'id_tipo',
+        'semestres',
         'url'
     ];
-
 
 }

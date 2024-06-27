@@ -31,12 +31,15 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Log in" />
+    <Head title="Login" />
 
     <GuestLayout>
-        <Link href="/" class="flex items-center justify-center">
-            <ApplicationLogo class="h-20 w-20 fill-current text-gray-500" />
+        <Link href="/" class="flex items-center justify-center mt-3">
+            <ApplicationLogo class="h-24 w-24 fill-current text-gray-500" style="width: 130px; height: 130px;" />
         </Link>
+        <div class="flex justify-center font-bold" style="font-size:1.5rem; text-align: center;">
+            Concurso de catedras
+        </div>
 
         <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
             {{ status }}
@@ -51,25 +54,31 @@ const submit = () => {
 
             <div class="mt-3">
                 <InputLabel for="password" value="Password" />
-                <TextInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
+                <TextInput id="password" :type="mostrar == true?'text':'password'" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
             <div class="mt-4 flex justify-between">
                 <label class="inline-flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="mx-2 text-sm text-gray-600">Remember me</span> </label>
+                    <Checkbox name="remember" v-model:checked="mostrar" />
+                    <span class="mx-2 text-sm text-gray-600">Mostrar</span> </label>
 
-                <Link v-if="canResetPassword" :href="route('password.request')" class="text-sm text-gray-600 underline hover:text-gray-900">
+                <!-- <Link v-if="canResetPassword" :href="route('password.request')" class="text-sm text-gray-600 underline hover:text-gray-900">
                     Forgot your password?
-                </Link>
+                </Link> -->
             </div>
 
-            <div class="mt-6">
-                <PrimaryButton class="w-full" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
+            <div class="mt-6 mb-2">
+                <PrimaryButton class="w-full" style="background: blue;" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    Ingresar al sistema
                 </PrimaryButton>
             </div>
         </form>
     </GuestLayout>
 </template>
+
+<script>
+import { ref } from 'vue';
+const mostrar = ref(false);
+
+</script>

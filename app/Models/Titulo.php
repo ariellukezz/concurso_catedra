@@ -16,6 +16,10 @@ class Titulo extends Model
         'id_tipo',
         'id_usuario',
         'url',
+        'estado',
+        'reg_sunedu',
+        'fec_expedicion',
+        'institucion'
     ];
 }
 

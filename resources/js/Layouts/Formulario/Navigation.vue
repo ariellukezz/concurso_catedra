@@ -93,11 +93,11 @@
         <div class="flex justify-center">
           <hr class="vertical-hr">
         </div>
-        <li class="relative px-0 py-0" :class="[route().current('registro-datos_personales') ? 'activado' : 'desactivado']">
-          <NavLink :href="route('registro-datos_personales')" class="text-gray-500 px-0.5 py-1.5">
+        <li class="relative px-0 py-0" :class="[route().current('registro-experiencia-docente') ? 'activado' : 'desactivado']">
+          <NavLink :href="route('registro-experiencia-docente')" class="text-gray-500 px-0.5 py-1.5">
             <div class="flex">
-              <div :class="[route().current('registro-datos_personales') ? 'div-activado' : 'div-desactivado']">
-                <span :class="[route().current('registro-datos_personales') ? 'activado-nro' : 'desactivado-nro']">
+              <div :class="[route().current('registro-experiencia-docente') ? 'div-activado' : 'div-desactivado']">
+                <span :class="[route().current('registro-experiencia-docente') ? 'activado-nro' : 'desactivado-nro']">
                   06
                 </span>
               </div>
@@ -110,11 +110,11 @@
         <div class="flex justify-center">
           <hr class="vertical-hr">
         </div>
-        <li class="relative px-0 py-0" :class="[route().current('registro-datos_personales') ? 'activado' : 'desactivado']">
-          <NavLink :href="route('registro-datos_personales')" class="text-gray-500 px-0.5 py-1.5">
+        <li class="relative px-0 py-0" :class="[route().current('registro-manejo-software') ? 'activado' : 'desactivado']">
+          <NavLink :href="route('registro-manejo-software')" class="text-gray-500 px-0.5 py-1.5">
             <div class="flex">
-              <div :class="[route().current('registro-datos_personales') ? 'div-activado' : 'div-desactivado']">
-                <span :class="[route().current('registro-datos_personales') ? 'activado-nro' : 'desactivado-nro']">
+              <div :class="[route().current('registro-manejo-software') ? 'div-activado' : 'div-desactivado']">
+                <span :class="[route().current('registro-manejo-software') ? 'activado-nro' : 'desactivado-nro']">
                   07
                 </span>
               </div>
@@ -127,11 +127,11 @@
         <div class="flex justify-center">
           <hr class="vertical-hr">
         </div>
-        <li class="relative px-0 py-0" :class="[route().current('registro-datos_personales') ? 'activado' : 'desactivado']">
-          <NavLink :href="route('registro-datos_personales')" class="text-gray-500 px-0.5 py-1.5">
+        <li class="relative px-0 py-0" :class="[route().current('registro-idiomas') ? 'activado' : 'desactivado']">
+          <NavLink :href="route('registro-idiomas')" class="text-gray-500 px-0.5 py-1.5">
             <div class="flex">
-              <div :class="[route().current('registro-datos_personales') ? 'div-activado' : 'div-desactivado']">
-                <span :class="[route().current('registro-datos_personales') ? 'activado-nro' : 'desactivado-nro']">
+              <div :class="[route().current('registro-idiomas') ? 'div-activado' : 'div-desactivado']">
+                <span :class="[route().current('registro-idiomas') ? 'activado-nro' : 'desactivado-nro']">
                   08
                 </span>
               </div>
@@ -144,11 +144,11 @@
         <div class="flex justify-center">
           <hr class="vertical-hr">
         </div>
-        <li class="relative px-0 py-0" :class="[route().current('registro-datos_personales') ? 'activado' : 'desactivado']">
-          <NavLink :href="route('registro-datos_personales')" class="text-gray-500 px-0.5 py-1.5">
+        <li class="relative px-0 py-0" :class="[route().current('registro-reconocimientos') ? 'activado' : 'desactivado']">
+          <NavLink :href="route('registro-reconocimientos')" class="text-gray-500 px-0.5 py-1.5">
             <div class="flex">
-              <div :class="[route().current('registro-datos_personales') ? 'div-activado' : 'div-desactivado']">
-                <span :class="[route().current('registro-datos_personales') ? 'activado-nro' : 'desactivado-nro']">
+              <div :class="[route().current('registro-reconocimientos') ? 'div-activado' : 'div-desactivado']">
+                <span :class="[route().current('registro-reconocimientos') ? 'activado-nro' : 'desactivado-nro']">
                   09
                 </span>
               </div>
@@ -161,11 +161,11 @@
         <div class="flex justify-center">
           <hr class="vertical-hr">
         </div>
-        <li class="relative px-0 py-0" :class="[route().current('registro-datos_personales') ? 'activado' : 'desactivado']">
-          <NavLink :href="route('registro-datos_personales')" class="text-gray-500 px-0.5 py-1.5">
+        <li class="relative px-0 py-0" :class="[route().current('registro-proyeccion') ? 'activado' : 'desactivado']">
+          <NavLink :href="route('registro-proyeccion')" class="text-gray-500 px-0.5 py-1.5">
             <div class="flex">
-              <div :class="[route().current('registro-datos_personales') ? 'div-activado' : 'div-desactivado']">
-                <span :class="[route().current('registro-datos_personales') ? 'activado-nro' : 'desactivado-nro']">
+              <div :class="[route().current('registro-proyeccion') ? 'div-activado' : 'div-desactivado']">
+                <span :class="[route().current('registro-proyeccion') ? 'activado-nro' : 'desactivado-nro']">
                   10
                 </span>
               </div>
@@ -179,11 +179,11 @@
         <div class="flex justify-center">
           <hr class="vertical-hr">
         </div>
-        <li class="relative px-0 py-0" :class="[route().current('registro-datos_personales') ? 'activado' : 'desactivado']">
-          <NavLink :href="route('registro-datos_personales')" class="text-gray-500 px-0.5 py-1.5">
+        <li class="relative px-0 py-0" :class="[route().current('registro-bonificacion') ? 'activado' : 'desactivado']">
+          <NavLink :href="route('registro-bonificacion')" class="text-gray-500 px-0.5 py-1.5">
             <div class="flex">
-              <div :class="[route().current('registro-datos_personales') ? 'div-activado' : 'div-desactivado']">
-                <span :class="[route().current('registro-datos_personales') ? 'activado-nro' : 'desactivado-nro']">
+              <div :class="[route().current('registro-bonificacion') ? 'div-activado' : 'div-desactivado']">
+                <span :class="[route().current('registro-bonificacion') ? 'activado-nro' : 'desactivado-nro']">
                   11
                 </span>
               </div>
