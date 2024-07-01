@@ -113,9 +113,4 @@ class CandidatoController extends Controller
 
 
 
-
-
-
-
-
 }

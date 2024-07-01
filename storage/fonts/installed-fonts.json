@@ -1,0 +1,14 @@
+{
+    "barlowcondensed regular": {
+        "normal": "barlowcondensed_regular_normal_ee6e93d76fabc21e7fba42fe66166150"
+    },
+    "barlowcondensed medium": {
+        "600": "barlowcondensed_medium_600_55ffbdad42a1b0461f037ec00ff7af3f"
+    },
+    "barlowcondensed semibold": {
+        "500": "barlowcondensed_semibold_500_d4c180677f2a6f6a5fb58b5f8c833691"
+    },
+    "barlowcondensed bold": {
+        "500": "barlowcondensed_bold_500_eb9fbf7bbd33526997571068024775ab"
+    }
+}

@@ -19,8 +19,9 @@ use App\Http\Controllers\ReconocimientoController;
 use App\Http\Controllers\ActividadSocialController;
 use App\Http\Controllers\BonificacionController;
 use App\Http\Controllers\PlazaController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\InscripcionController;
-
+use App\Http\Controllers\TCPDFController;
 
 //use App\Http\Middleware\verPaso;
 use Inertia\Inertia;
@@ -96,7 +97,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/save-inscripcion', [InscripcionController::class, 'save']);
     Route::get('/get-inscripciones', [InscripcionController::class, 'getInscripciones']);
 
-
     Route::post('/save-candidato', [CandidatoController::class, 'Save']);
     Route::get('/get-candidato', [CandidatoController::class, 'getCandidato']);
     Route::get('/get-tipo-titulos', [TipoTituloController::class, 'selectTipoTitulos']);
@@ -107,11 +107,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/get-titulos-usuario', [TituloController::class, 'getTitulosUsuario']);
     Route::get('/eliminar-titulo/{id}', [TituloController::class, 'eliminarTitulo']);
 
-
     Route::post('/subir-estudios-posgrado', [EstudioPosgradoController::class, 'subirEstudios']);
     Route::get('/get-estudios-usuario', [EstudioPosgradoController::class, 'getEstudios']);
     Route::get('/eliminar-estudio/{id}', [EstudioPosgradoController::class, 'eliminarEstudio']); 
-
 
     Route::post('/subir-publicaciones', [InvestigacionPublicacionController::class, 'subirPublicacion']);
     Route::get('/get-publicaciones', [InvestigacionPublicacionController::class, 'getPublicaciones']);Route::get('/eliminar-publicacion', [InvestigacionPublicacionController::class, 'eliminarPublicacion']);
@@ -124,6 +122,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/get-experiencia-docente', [ExperienciaController::class, 'getExperienciaDocente']);
 
 });
+
+
+Route::get('/pdf', [PDFController::class, 'generatePDF']);
+Route::get('/test-tcpdf', [TCPDFController::class, 'generatePDF']);
 
 //Route::get('/eliminar-publicacion', [InvestigacionPublicacionController::class, 'eliminarPublicacion']);
 

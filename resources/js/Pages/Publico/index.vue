@@ -5,7 +5,7 @@
     <div class="">
       <div class="text-lg mt-2">
         <div class="fondo-principal-h1 mb-2">
-            Sistema de concurso publico de catedra
+            Concurso publico de catedra
         </div>
         <div class="fondo-principal-h1 mt-0">
           UNA PUNO 2024
@@ -22,8 +22,24 @@
   </div>
 
 
-  <div class="flex bg-gray-200" style="align-items: center; height: calc(100vh - 112px);">
+  <div class="flex bg-white-200" style="justify-content: center; align-items: center;">
+    <Convocatoria/>  
+  </div>
 
+  <div class="flex bg-gray-100" style="justify-content: center; align-items: center;">
+    <Requisitos/>  
+  </div>
+
+  <div class="flex bg-white-100" style="justify-content: center; align-items: center; min-height: calc(100vh - 112px);">
+    <Cronograma/>  
+  </div>
+
+  <div class="flex bg-gray-100" style="justify-content: center; align-items: center; width: 100%;">
+    <Pagos/>  
+  </div>
+
+  <div class="flex bg-white-200" style="justify-content: center; align-items: center; width: 100%;">
+    <Anexos/>
   </div>
 
 
@@ -34,6 +50,13 @@
 <script setup>
 import Layout from '@/Layouts/Formulario/FormularioLayout.vue';
 import { Link } from '@inertiajs/vue3';
+import Cronograma from './components/conograma.vue'
+import Convocatoria from './components/convocatoria.vue'
+import Requisitos from './components/requisitos.vue'
+import Pagos from './components/pagos.vue'
+import Anexos from './components/anexos.vue'
+
+
 </script>
 
 <style scoped>

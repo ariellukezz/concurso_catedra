@@ -5,7 +5,7 @@
             <div><span style="font-weight: bold; font-size: 1rem; color:#009DD1;"> Seleccion de plaza </span></div>
             <div style="margin-top: -5px;"><a-button @click="abrirModal()">Agregar</a-button></div>
         </div>
-        
+
         <div class="mt-5 mx-2 my-2">
 
 
@@ -38,7 +38,6 @@
                 </div>
             
             </div>
-    
         </div>
     </div>
     </a-card>

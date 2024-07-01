@@ -1,0 +1,51 @@
+@font-face {
+    font-family: 'BarlowCondensed Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: url("../fonts/BarlowCondensed-Regular.ttf") format('truetype');
+}
+@font-face {
+    font-family: 'BarlowCondensed Medium';
+    font-style: normal;
+    font-weight: 600;
+    src: url("../fonts/BarlowCondensed-Medium.ttf") format('truetype');
+}
+@font-face {
+    font-family: 'BarlowCondensed Semibold';
+    font-style: normal;
+    font-weight: 500;
+    src: url("../fonts/BarlowCondensed-SemiBold.ttf") format('truetype');
+}
+
+@font-face {
+    font-family: 'BarlowCondensed Bold';
+    font-style: normal;
+    font-weight: 500;
+    src: url("../fonts/BarlowCondensed-Bold.ttf") format('truetype');
+}
+* {
+    font-family: 'BarlowCondensed Medium';
+}
+
+h1 {
+    font-family: 'BarlowCondensed black';
+    font-weight: 900;
+}
+h2 {
+    font-family: 'BarlowCondensed Semibold';
+    font-weight: normal;
+}
+
+h3 {
+    font-family: 'BarlowCondensed Medium';
+    font-weight: 600;
+}
+
+table tr td {
+    font-family: 'BarlowCondensed Regular'; 
+}
+table tr th {
+    font-family: 'BarlowCondensed black';
+}
+
+
