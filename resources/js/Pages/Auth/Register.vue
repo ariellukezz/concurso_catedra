@@ -22,36 +22,36 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Register" />
+    <Head title="Crear Cuenta" />
 
     <GuestLayout>
         <Link href="/" class="flex items-center justify-center">
-            <ApplicationLogo class="h-20 w-20 fill-current text-gray-500" />
+            <ApplicationLogo class="h-20 w-20 fill-current text-gray-500"/>
         </Link>
 
         <form @submit.prevent="submit">
 
             <div class="mt-3">
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="Correo" value="Correo" />
                 <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autocomplete="username" />
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
             <div class="mt-3">
-                <InputLabel for="password" value="Password" />
+                <InputLabel for="Password" value="Contraseña" />
                 <TextInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="new-password" />
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
             <div class="mt-3">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+                <InputLabel for="password_confirmation" value="Confirmar contraseña"/>
                 <TextInput id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
             </div>
 
             <div class="mt-4 flex flex-col items-end">
                 <PrimaryButton class="w-full" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
+                    Registrarme
                 </PrimaryButton>
 
                 <Link :href="route('login')" class="mt-4 text-sm text-gray-600 underline hover:text-gray-900">

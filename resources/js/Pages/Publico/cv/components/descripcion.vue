@@ -3,7 +3,8 @@
   <div>
     <div class="flex justify-between border-b-2" style="border-bottom: solid 2px #009DD1; padding-bottom: 8px;">
       <div><span style="font-weight: bold; font-size: 1rem; color:#009DD1;">Descripción breve</span></div>
-      <div v-if="!descripcion.descripcion"style="margin-top: -5px;"><a-button @click="modal = true">Agregar</a-button></div>
+      <div v-if="!descripcion.descripcion" style="margin-top: -5px;"><a-button @click="modal = true">Agregar</a-button></div>
+      <div v-else style="margin-top: -5px;"><a-button @click="abrirEditar()">Editar</a-button></div>
     </div>
 
     <div class="mt-3"  v-if="descripcion.descripcion" >
@@ -57,6 +58,11 @@ import { notification } from 'ant-design-vue';
 import { h } from 'vue';
 
 
+const abrirEditar = () => { 
+  modal.value = true;
+  form.descripcion = descripcion.value.descripcion;
+  form.id = descripcion.value.id; 
+}
 const formDatos = ref(null);
 const form = reactive({
   id: null,

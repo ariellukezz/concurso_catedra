@@ -9,30 +9,58 @@ use DB;
 class EstudioPosgradoController extends Controller
 {
     public function subirEstudios(Request $request) {
-        $request->validate([
-            'file' => 'required|file|mimes:jpg,png,pdf,doc,docx|max:2048',
-            'denominacion' => 'required|string|max:255',
-            'tipo' => 'required|integer',
-        ]);
 
-        if ($request->hasFile('file')) {
-            $path = $request->file('file')->store('estudios', 'public');
+        if (!$request->id) {
 
-            $titulo = new EstudioPosgrado();
-            $titulo->denominacion = $request->denominacion;
-            $titulo->institucion = $request->institucion;
-            $titulo->semestres = $request->semestres;
-            $titulo->fec_inicio = $request->fec_inicio;
-            $titulo->fec_fin = $request->fec_fin;
-            $titulo->id_tipo = $request->tipo;
-            $titulo->url = "storage/".$path;
-            $titulo->id_usuario = auth()->id();
-            $titulo->save();
+            $request->validate([
+                'file' => 'required|file|mimes:jpg,png,pdf,doc,docx|max:2048',
+                'denominacion' => 'required|string|max:255',
+                'tipo' => 'required|integer',
+            ]);
 
-            return response()->json(['success' => 'File uploaded successfully'], 200);
+            if ($request->hasFile('file')) {
+                $path = $request->file('file')->store('estudios', 'public');
+
+                $titulo = new EstudioPosgrado();
+                $titulo->denominacion = $request->denominacion;
+                $titulo->institucion = $request->institucion;
+                $titulo->semestres = $request->semestres;
+                $titulo->fec_inicio = $request->fec_inicio;
+                $titulo->fec_fin = $request->fec_fin;
+                $titulo->id_tipo = $request->tipo;
+                $titulo->url = "storage/".$path;
+                $titulo->id_usuario = auth()->id();
+                $titulo->save();
+
+                return response()->json(['success' => 'Registrado con exito'], 200);
+        
+            }
+
+        } else {
+
+            $estudios = EstudioPosgrado::find($request->id);
+            $file = EstudioPosgrado::find($request->id);
+            $path = $estudios->url;
+            $estudios->denominacion = $request->denominacion;
+            $estudios->institucion = $request->institucion;
+            $estudios->semestres = $request->semestres;
+            $estudios->fec_inicio = $request->fec_inicio;
+            $estudios->fec_fin = $request->fec_fin;
+            $estudios->id_tipo = $request->tipo;
+            if ($request->hasFile('file')) {
+                if (Storage::disk('public')->exists($file->url)) {
+                    Storage::disk('public')->delete($file->url);
+                }
+                $path = $request->file('file')->store('titulos', 'public');
+            }
+            $estudios->url = "storage/".$path;
+            $estudios->id_usuario = auth()->id();
+            $estudios->save();
+
+            return response()->json(['error' => 'Registro actlualizado'], 200);
         }
 
-        return response()->json(['error' => 'File upload failed'], 400);
+
     }
 
     public function getEstudios(){

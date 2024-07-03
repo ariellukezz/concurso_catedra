@@ -3,7 +3,7 @@
     <div>
         <div class="flex justify-between border-b-2" style="border-bottom: solid 2px #009DD1; padding-bottom: 8px;">
             <div><span style="font-weight: bold; font-size: 1rem; color:#009DD1;">Datos personales </span></div>
-            <div style="margin-top: -5px;"><a-button @click="modal = true">Agregar</a-button></div>
+            <div style="margin-top: -5px;"><a-button @click="modal = true">{{ form.id != null?'Editar':'Agregar' }}</a-button></div>
         </div>
 
         <div class="mt-3"  >
@@ -13,7 +13,7 @@
                     <div><span class="font-bold">Tipo Doc</span><span class="mx-2">:</span><span>DNI</span></div>
                     <div><span class="font-bold">N° Documento</span><span class="mx-2">:</span>{{ form.nro_doc }}</div>
                     <div><span class="font-bold">Apellidos y nombres</span><span class="mx-2">:</span>{{ form.paterno }} {{ form.materno }} {{ form.nombres }} </div>
-                    <div><span class="font-bold">Procedencia</span><span class="mx-2">:</span> Puno/Puno/Ilave </div>
+                    <div><span class="font-bold">Procedencia</span><span class="mx-2">:</span> {{ form.ubigeo }} </div>
                     <div><span class="font-bold">Dirección</span><span class="mx-2">:</span>{{ form.direccion }}</div>
                     <div><span class="font-bold">Sexo</span><span class="mx-2">:</span>{{ form.nro_doc == 1?"Femenino":"Masculino" }}</div>
                     <div><span class="font-bold">Fecha Nac.</span><span class="mx-2">:</span>{{ formatFechaNac(form.fec_nac) }}</div>
@@ -46,7 +46,7 @@
 
 
 
-    <a-modal v-model:visible="modal" title="Datos personales" centered :footer="false"  :maskClosable="false" @ok="handleOk" @afterOpen="handleModalOpen">
+    <a-modal v-model:visible="modal" width="700px" title="Datos personales" centered :footer="false"  :maskClosable="false" @ok="handleOk" @afterOpen="handleModalOpen">
     <div class="flex justify-center mt-6" style="">
         <div class="flex justify-center">
             <a-row style="display:flex; justify-content:center;">
@@ -144,23 +144,20 @@
                         </a-col>
 
                         <a-col :xs="24" :sm="24" :md="12" :lg="24">
-                            <label>Ubigeo (dep/prov/dist) {{ form.ubigeo_residencia }}<span style="color:red;">*</span></label>
-                            <a-form-item name="ubigeo_residencia" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                            <label>Ubigeo (dep/prov/dist)<span style="color:red;">*</span></label>
+                            <a-form-item name="ubigeo" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
                                 <a-auto-complete
-                                    v-model:value="form.ubigeo_residencia"                
-                                    :options="residencias"
-                                    @select="onSelectResidencias"
-                                
+                                    v-model:value="form.ubigeo"                
+                                    :options="ubigeos"
+                                    @select="onSelectUbigeo"
+                                    @handleOk="habld"
                                 >
                                     <a-input
-                                        placeholder="Procedencia del Colegio"
-                                        v-model:value="buscarColegio"
-                                        @keypress="handleKeyPress"
+                                        placeholder="Procedencia"
+                                        v-model:value="buscarUbigeo"
                                     >
                                         <template #suffix>
-                                            <a-tooltip title="Extra information">
                                             <down-outlined/>
-                                            </a-tooltip>
                                         </template>
                                     </a-input>
                                 </a-auto-complete>
@@ -168,7 +165,7 @@
                         </a-col>
 
 
-                        <a-col :xs="24" :sm="12" :md="12" :lg="24">
+                        <a-col :xs="24" :sm="12" :md="12" :lg="16">
                             <label>Dirección<span style="color:red;">*</span></label>
                             <a-form-item name="direccion" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
                             <a-input v-model:value="form.direccion" style="height: 32px;">
@@ -179,7 +176,7 @@
                         </a-col>
 
 
-                        <a-col :xs="24" :sm="12" :md="8" :lg="8">
+                        <a-col :xs="24" :sm="12" :md="12" :lg="8">
                             <label>celular<span style="color:red;">*</span></label>
                             <a-form-item name="celular" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
                             <a-input v-model:value="form.celular" style="height: 32px;">
@@ -189,23 +186,13 @@
                             </a-form-item>
                         </a-col>
 
-
-                        <a-col :xs="24" :sm="12" :md="16" :lg="16">
-                            <label>Correo<span style="color:red;">*</span></label>
-                            <a-form-item name="correo" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
-                            <a-input v-model:value="form.correo" style="height: 32px;">
-                                <template #suffix>
-                                </template>
-                                </a-input>
-                            </a-form-item>
-                        </a-col>
                     </a-row>
 
                     <a-row>
                         <a-col :span="24">
                             <div class="flex justify-end">
                                 <a-button class="mr-4" @click="Cancelar()"> Cancelar </a-button>                          
-                                <a-button type="primary" style="width:90px; background:blue; color:white; border-radius:4px; border: none;" @click="save()">Guardar</a-button>
+                                <a-button type="primary" style="width:90px; background: #00a0c8; ; color:white; border-radius:4px; border: none;" @click="save()">Guardar</a-button>
                             </div>
                         </a-col>
                         </a-row>
@@ -228,20 +215,17 @@ import 'dayjs/locale/es';
 dayjs.locale('es');
 const residencia = ref(null)
 const redseleccionado = ref(null)
-const buscarResidencia = ref(null)
-const residencias = ref([])
-const ubicolegio = ref(null)
-const ubicolegioseleccionado = ref(null)
+const buscarUbigeo = ref(null)
+const ubigeoseleccionado = ref(null)
 const buscarColegio = ref(null)
-const ubicolegios = ref([])
 const modalAviso = ref(false);
 const modal = ref(false);
+const ubigeos = ref([]);
 const buscarC = ref(null)
 const colegios = ref([])
 const formDatos = ref();
 const loading = ref(false)
 const loadingdowload = ref(false);
-const pagos = ref([]);
 const inscrito = ref(false);
 const form = reactive({  
     id: null,
@@ -249,12 +233,11 @@ const form = reactive({
     nro_doc:'',
     paterno:'',
     materno:'', 
-    nombres:'', 
+    nombres:'',
     sexo: null, 
     fec_nac:'',
     celular:'',
-    correo:'',
-    ubigeo_residencia:'',
+    ubigeo:'',
     terminos:false
 });
     
@@ -265,14 +248,16 @@ const save = async () => {
     // loading.value = true;
     try {
         const values = await formDatos.value.validateFields();
+        form.ubigeo = ubigeoseleccionado.value.value;
         const response = await axios.post('/save-candidato', form);
         if (response.status === 202) {
             console.log(response.data.errors);
         } else {
-            inscrito.value = true;
+            modal.value = false;
             getCandidato();
-            limpiar();
             notificacion('success', response.data.titulo, response.data.mensaje);
+            limpiar();
+            
         }
     } catch (error) {
         console.error(error);
@@ -293,7 +278,9 @@ const getCandidato = async () => {
         form.sexo =  response.data.datos.sexo;
         if(response.data.datos.fec_nac){ form.fec_nac = dayjs(response.data.datos.fec_nac) }
         form.correo=  response.data.datos.correo;
-        form.ubigeo_residencia =  response.data.datos.ubigeo_residencia;
+        form.ubigeo =  response.data.datos.lugar;
+        buscarUbigeo.value =  response.data.datos.ubigeoseleccionado;
+        ubigeoseleccionado.value = {value: response.data.datos.ubigeo};
         form.direccion =  response.data.datos.direccion;
         form.correo =  response.data.datos.correo;
         form.terminos =  true;
@@ -307,19 +294,25 @@ onMounted(() => {
 })
 
 
-watch(buscarC, ( newValue, oldValue ) => { getColegios() })
-watch(buscarResidencia, ( newValue, oldValue ) => {  if(newValue.length >= 3){ getUbigeosResidencia() }})
+let timeoutId;
+watch(buscarUbigeo, ( newValue, oldValue ) => {
+  clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+        getUbigeos()
+    }, 300);  
 
-const onSelectResidencias = (value, option) => { redseleccionado.value = option.key; form.ubigeo_residencia = option.key };
+})
 
+
+
+const onSelectUbigeo = (value, option) => { form.ubigeo = option.label; ubigeoseleccionado.value = option; };
 
 const notificacion = (type, titulo, mensaje) => { notification[type]({ message: titulo,description: mensaje});};
 
-const getUbigeosResidencia = async () => {
-    axios.post("/get-ubigeo",{"term": buscarResidencia.value})
+const getUbigeos = async () => {
+    axios.post("/get-ubigeos",{"term": buscarUbigeo.value})
     .then((response) => {
-        residencias.value = response.data.datos.data;
-        console.log('Datos recibidos:', residencias);
+        ubigeos.value = response.data.datos;
     })
     .catch((error) => {
         if (error.response) {
@@ -362,7 +355,7 @@ const imprimir = async () => {
 }
 
 const imp = () => {
-    const pdfUrl = 'https://inscripciones.admision.unap.edu.pe/pdf-simulacro-inscripcion/' + form.nro_doc;
+    const pdfUrl = '/pdf-simulacro-inscripcion/' + form.nro_doc;
     const link = document.createElement('a');
     link.href = pdfUrl;
     link.target = '_blank';
@@ -380,22 +373,18 @@ const limpiar = () => {
     form.celular = '';
     form.correo = '';
     form.pais = 1;
-    form.ubigeo_residencia = '';
+    form.ubigeo = '';
     form.grado = 1; 
-    form.ubigeo_colegio = null; 
-    form.id_colegio = null; 
-    form.terminos = false;
-    form.id_pago = null;
-    redseleccionado.valu = true
-    residencia.value = null
-    redseleccionado.value = null
-    buscarResidencia.value = null
+    ubigeoseleccionado.value = true
+    buscarUbigeo.value = null
 }  
 
 const formatFechaNac = (date) => {
     dayjs.locale('es');
     return dayjs(date).format('DD MMMM YYYY');
 }
+
+getUbigeos();
 
 </script>
 <style scoped>

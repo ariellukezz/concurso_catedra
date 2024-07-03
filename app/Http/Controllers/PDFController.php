@@ -12,18 +12,18 @@ class PDFController extends Controller
 {
     public function generatePDF()
     {
-
         $descripcion = DB::select("SELECT d.id, d.descripcion FROM descripcion d where d.id_usuario = ".auth()->id());
         $desc = $descripcion[0];
 
         $cand = DB::select(
             "SELECT can.id, can.tipo_doc, can.nro_doc, can.nombres, can.paterno, can.materno, 
                 can.sexo, CONCAT(can.fec_nac) AS fec_nac, ubigeo_residencia, celular, 
-                CONCAT(ubi.departamento,' / ',ubi.provincia,' / ', ubi.distrito ) AS lugar,email AS correo, direccion, 
-                estado
+                CONCAT(ubi.departamento,' / ',ubi.provincia,' / ', ubi.distrito ) AS lugar, usu.email AS correo, direccion, 
+                can.estado
             FROM candidatos can
+            JOIN users usu ON usu.id = can.usuario_id 
             JOIN ubigeo ubi ON ubi.reniec = can.ubigeo_residencia 
-            WHERE usuario_id = ".auth()->id()); 
+            WHERE can.usuario_id = ".auth()->id()); 
         $candidato = $cand[0];
 
 
@@ -55,4 +55,16 @@ class PDFController extends Controller
     
         return $pdf->stream('test.pdf');
     }
+
+    public function downloadAnexos($cod){
+
+        $path = storage_path('app/public/anexos/'.$cod.".pdf");
+
+        if (!file_exists($path)) {
+            abort(404, 'El archivo no existe.');
+        }
+
+        return response()->download($path);
+    }
+    
 }

@@ -22,8 +22,7 @@ class CandidatoController extends Controller
                 'sexo' => 'required|integer',
                 'fec_nac' => 'required|date',
                 'celular' => 'required|string|max:20',
-                'correo' => 'required|string|email|max:100',
-                'ubigeo_residencia' => 'required|string|max:10',
+                'ubigeo' => 'required|string|max:6|min:6',
                 'terminos' => 'required|boolean',
                 'direccion' => 'required|string|max:255',
             ]);
@@ -36,9 +35,8 @@ class CandidatoController extends Controller
                 'materno'=> $request->materno,
                 'sexo' => $request->sexo,
                 'fec_nac' => substr($request->fec_nac, 0,10),
-                'ubigeo_residencia' => $request->ubigeo_residencia,
+                'ubigeo_residencia' => $request->ubigeo,
                 'celular' => $request->celular,
-                'email' => $request->correo,
                 'direccion' =>  $request->direccion,
                 'foto' => "",
                 'estado' => 1,
@@ -62,8 +60,7 @@ class CandidatoController extends Controller
                 'sexo' => 'required|integer',
                 'fec_nac' => 'required|date',
                 'celular' => 'required|string|max:20',
-                'correo' => 'required|string|email|max:100',
-                'ubigeo_residencia' => 'required|string|max:10',
+                'ubigeo' => 'required|string|max:6|min:6',
                 'terminos' => 'required|boolean',
                 'direccion' => 'required|string|max:255',
             ]);
@@ -75,7 +72,7 @@ class CandidatoController extends Controller
             $candidato->materno = $request->materno;
             $candidato->sexo = $request->sexo;
             $candidato->fec_nac = substr($request->fec_nac, 0,10);
-            $candidato->ubigeo_residencia =  $request->ubigeo_residencia;
+            $candidato->ubigeo_residencia =  $request->ubigeo;
             $candidato->celular = $request->celular;
             $candidato->email = $request->correo;
             $candidato->direccion = $request->direccion;
@@ -95,8 +92,12 @@ class CandidatoController extends Controller
 
     public function getCandidato(){
         $res = Candidato::select('id','tipo_doc', 'nro_doc', 'nombres', 'paterno', 'materno', 'sexo', 
-        DB::raw("CONCAT(fec_nac,'T05:00:00.000Z') AS fec_nac"),
-        'ubigeo_residencia', 'celular', 'email as correo', 'direccion', 'estado', 'usuario_id AS usuario')
+            DB::raw("CONCAT(fec_nac,'T05:00:00.000Z') AS fec_nac"),
+            'ubigeo_residencia as ubigeo', 'celular', 'email as correo', 'direccion', 'estado', 'usuario_id AS usuario',
+            DB::raw("CONCAT(reniec,' - ',departamento, '/', provincia, '/', distrito) AS ubigeoseleccionado"),
+            DB::raw("CONCAT(departamento, '/', provincia, '/', distrito) AS lugar")
+            )
+            ->join('ubigeo','ubigeo.reniec','candidatos.ubigeo_residencia')
             ->where('usuario_id','=',auth()->id())
             ->first();
         if($res){
@@ -106,7 +107,6 @@ class CandidatoController extends Controller
             $this->response['estado'] = false;
             $this->response['datos'] = $res;
         }
-
 
         return response()->json($this->response, 200);
     }

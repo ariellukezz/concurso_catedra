@@ -13,9 +13,9 @@
             </td>
             <td>
                 <div style="margin-top: -20px; margin-left:10px;">
-                    <div><span style="color: blue; font-size:36pt; font-family:'helvetica'">Ariel Luque</span></div>
-                    <div style="margin-top: -5px;"><span style="font-size:11pt; font-family:'helvetica'">Celular: </span><span style="font-family:'helvetica'"> 966637192</span></div>
-                    <div style="margin-top: -0px;"><span style="font-size:11pt; font-family:'helvetica'">Correo: </span><span style="font-family:'helvetica'"> jhonar_theking@gmail.com</span></div>
+                    <div><span style="color: blue; font-size:36pt; font-family:'helvetica'; text-transform:capitalize; ">{{ strtolower(explode(' ', $candidato->nombres)[0]) }} {{ strtolower($candidato->paterno) }}</span></div>
+                    <div style="margin-top: -5px;"><span style="font-size:11pt; font-family:'helvetica'">Celular: </span><span style="font-family:'helvetica'"> {{ $candidato->celular }}</span></div>
+                    <div style="margin-top: -0px;"><span style="font-size:11pt; font-family:'helvetica'">Correo: </span><span style="font-family:'helvetica'"> {{ $candidato->correo }}</span></div>
                 </div>
             </td>
         </tr>
@@ -192,20 +192,6 @@
             <span style="font-size:14pt; font-weight:bold; color:blue;"> Bonificación </span>
         </div>
     </div>
-
-  
-    <table >
-        <tr >
-            <th style="font-weight: 900; font-size:.8rem;">ID</th>
-            <th style="font-weight: 900; font-size:.8rem;">Nombre</th>
-            <th style="font-weight: 900; font-size:.8rem;">Email</th>
-        </tr>
-        <tr>
-            <td>0001</td>
-            <td>Ariel Luque</td>
-            <td>Ariel_vaca@gmail.com</td>
-        </tr>
-    </table>
   
 </body>
 </html>

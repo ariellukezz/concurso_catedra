@@ -71,6 +71,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/get-descripcion', [DescripcionController::class, 'getDescripcion']);
     Route::get('/delete-descripcion/{id}', [DescripcionController::class, 'eliminar']);
 
+    Route::post('/save-candidato', [CandidatoController::class, 'Save']);
+    Route::get('/get-candidato', [CandidatoController::class, 'getCandidato']);
+
 
     Route::post('/save-manejo-software', [ManejoSoftwareController::class, 'save']);
     Route::get('/get-software-especializado', [ManejoSoftwareController::class, 'getManejoSoftware']);
@@ -97,8 +100,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/save-inscripcion', [InscripcionController::class, 'save']);
     Route::get('/get-inscripciones', [InscripcionController::class, 'getInscripciones']);
 
-    Route::post('/save-candidato', [CandidatoController::class, 'Save']);
-    Route::get('/get-candidato', [CandidatoController::class, 'getCandidato']);
+
     Route::get('/get-tipo-titulos', [TipoTituloController::class, 'selectTipoTitulos']);
     Route::get('/get-tipo_estudio_actualizacion', [TipoEstudioActualizacionController::class, 'selectTipoEstudioActualizacion']);
     Route::get('/get-tipo-investigacion-publicaicon', [TipoInvestigacionPublicacionController::class, 'selectTipoInvestigacionPublicacion']);
@@ -125,6 +127,8 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/pdf', [PDFController::class, 'generatePDF']);
+Route::get('/donwload-anexo/{cod}', [PDFController::class, 'downloadAnexos']);
+
 Route::get('/test-tcpdf', [TCPDFController::class, 'generatePDF']);
 
 //Route::get('/eliminar-publicacion', [InvestigacionPublicacionController::class, 'eliminarPublicacion']);

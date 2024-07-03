@@ -13,10 +13,18 @@ class DescripcionController extends Controller
             'descripcion' => 'required',
         ]);
 
-        $titulo = new Descripcion();
-        $titulo->descripcion = $request->descripcion;
-        $titulo->id_usuario = auth()->id();
-        $titulo->save();
+        if (!$request->id) {
+            $descripcion = new Descripcion();
+            $descripcion->descripcion = $request->descripcion;
+            $descripcion->id_usuario = auth()->id();
+            $descripcion->save();
+        }else {
+            $descripcion = Descripcion::find($request->id);
+            $descripcion->descripcion = $request->descripcion;
+            $descripcion->id_usuario = auth()->id();
+            $descripcion->save();
+            
+        }
 
         return response()->json(['mensaje' => 'Guardado con exito'], 200);
     }

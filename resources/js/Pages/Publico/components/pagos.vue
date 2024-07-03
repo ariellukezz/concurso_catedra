@@ -9,7 +9,7 @@
 
   </div>  
 </div>
-<div style="min-width: 420px; background: yellow; display: flex;">
+<div style="background: yellow; display: flex;">
   <div class="w-full" style="background: yellow;">
     <table style="background: white; width: 100%;">
       <tr>
@@ -74,7 +74,7 @@ import Layout from '@/Layouts/Formulario/FormularioLayout.vue';
 import { Link } from '@inertiajs/vue3';
 </script>
 
-<style scope>
+<style scoped>
 .table {
     width: 100%;
     border-collapse: collapse;

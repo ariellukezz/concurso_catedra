@@ -37,7 +37,7 @@ import Layout from '@/Layouts/Formulario/FormularioLayout.vue';
 import { Link } from '@inertiajs/vue3';
 </script>
 
-<style scope>
+<style scoped>
 .table {
     width: 100%;
     border-collapse: collapse;

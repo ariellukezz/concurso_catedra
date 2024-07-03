@@ -9,8 +9,8 @@
     <div class="mt-3">
         <div class="mb-2" v-for="item in titulos" :key="item">
             <a-row :gutter="16">
-                <a-col :xs="24" :sm="20" :md="20" :lg="24">
-                    <div class="flex justify-between" style="">
+                <a-col :xs="24" :sm="24" :md="24" :lg="24">
+                    <div class="flex justify-between">
                         <div class="">
                             <div style="margin-bottom: 0px; margin-top: -2px;"><span class="font-bold" style="font-size: .9rem;"> {{ item.tipo_nombre }} </span></div>
                             <div class="ml-8 mb-1">
@@ -24,7 +24,7 @@
                             <a-button @click="abriPDf(item.url)" class="mr-2" style="width: 20px; height: 20px; padding-left: 3px; border: solid #1a2843 1px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                             </a-button>
-                            <a-button @click="abriPDf(item.url)" class="mr-2" style="width: 20px; height: 20px; padding-left: 3px; border: solid #1a2843 1px;">
+                            <a-button @click="abrirEditar(item)" class="mr-2" style="width: 20px; height: 20px; padding-left: 3px; border: solid #1a2843 1px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1a2843" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
                             </a-button>
                             <a-button danger @click="eliminar(item.id)" style="width: 20px; height: 20px; padding-left: 3px;">
@@ -172,10 +172,27 @@ import { message, Upload, Button } from 'ant-design-vue';
 import axios from 'axios';
 const baseUrl = window.location.origin;
 import { format, parse } from 'date-fns';
+import dayjs from 'dayjs';
+import 'dayjs/locale/es';
+dayjs.locale('es');
 
 const abrirModal = () => {
     modaltitulo.value = true;
 }
+
+const abrirEditar = (item) => {
+    form.id = item.id;
+    form.denominacion=  item.denominacion;
+    form.institucion = item.institucion;
+    if(item.fec_inicio){ form.fec_inicio = dayjs(item.fec_inicio) }
+    if(item.fec_fin){ form.fec_fin = dayjs(item.fec_fin) }
+    pdfUrl.value = baseUrl+'/'+item.url;
+    form.semestres = item.semestres;
+    form.tipo = item.id_tipo;
+    modaltitulo.value = true;
+}
+
+
 const modaltitulo = ref(false);
 const titulos = ref([]);
 const tipos = ref([]);
@@ -196,7 +213,7 @@ const form = reactive({
     semestres:null,
     fec_inicio:null,
     fec_fin: null,
-    fileList: []
+    fileList: null
 });
 
 const getTipos = async () => {
@@ -245,6 +262,8 @@ const handleRemove = () => {
 
 const subirDatos = async () => {
     const formData = new FormData();
+    if(form.fileList[0]){ formData.append('file', form.fileList[0]);}
+    if(form.id != null ){ formData.append('id', form.id)};
     formData.append('denominacion', form.denominacion);
     formData.append('semestres', form.semestres);
     formData.append('institucion', form.institucion);

@@ -10,29 +10,53 @@ class TituloController extends Controller
 {
     public function cargarTitulo(Request $request)
     {
-        $request->validate([
-            'file' => 'required|file|mimes:jpg,png,pdf,doc,docx|max:2048',
-            'descripcion' => 'required|string|max:255',
-            'tipo' => 'required|integer',
-        ]);
 
-        if ($request->hasFile('file')) {
-            $path = $request->file('file')->store('titulos', 'public');
+        if (!$request->id) {
+            $request->validate([
+                'file' => 'required|file|mimes:jpg,png,pdf,doc,docx|max:2048',
+                'descripcion' => 'required|string|max:255',
+                'tipo' => 'required|integer',
+            ]);
 
-            $titulo = new Titulo();
+            if ($request->hasFile('file')) {
+                $path = $request->file('file')->store('titulos', 'public');
+                $titulo = new Titulo();
+                $titulo->denominacion = $request->descripcion;
+                $titulo->institucion = $request->institucion;
+                $titulo->fec_expedicion = $request->fec_expedicion;
+                $titulo->reg_sunedu = $request->reg_sunedu;
+                $titulo->id_tipo = $request->tipo;
+                $titulo->url = "storage/".$path;
+                $titulo->id_usuario = auth()->id();
+                $titulo->save();
+
+                return response()->json(['success' => 'File uploaded successfully'], 200);
+            } 
+
+        }else{
+            
+            $titulo = Titulo::find($request->id);
+            $file = Titulo::find($request->id);
+            $path = $titulo->url;
             $titulo->denominacion = $request->descripcion;
             $titulo->institucion = $request->institucion;
             $titulo->fec_expedicion = $request->fec_expedicion;
             $titulo->reg_sunedu = $request->reg_sunedu;
             $titulo->id_tipo = $request->tipo;
+            if ($request->hasFile('file')) {
+                if (Storage::disk('public')->exists($file->url)) {
+                    Storage::disk('public')->delete($file->url);
+                }
+                $path = $request->file('file')->store('titulos', 'public');
+            }
             $titulo->url = "storage/".$path;
             $titulo->id_usuario = auth()->id();
             $titulo->save();
 
-            return response()->json(['success' => 'File uploaded successfully'], 200);
         }
 
-        return response()->json(['error' => 'File upload failed'], 400);
+        return response()->json(['error' => 'titulo Registrado'], 200);
+
     }
 
 
@@ -48,7 +72,7 @@ class TituloController extends Controller
     }
 
     public function eliminarTitulo($id) {
-
+ 
         $file = Titulo::find($id);
 
         if (!$file) {

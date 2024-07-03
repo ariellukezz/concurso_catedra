@@ -73,6 +73,14 @@ const submit = () => {
                     Ingresar al sistema
                 </PrimaryButton>
             </div>
+            <div>
+                <Link href="/register" class="flex items-center justify-center mt-3 mb-5">
+                    <PrimaryButton class="w-full" style="background: #e3e3e3; color:blue;" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                        Crear cuenta
+                    </PrimaryButton>
+                 </Link>
+                
+            </div>
         </form>
     </GuestLayout>
 </template>

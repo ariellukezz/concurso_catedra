@@ -25,7 +25,7 @@
                             <a-button @click="abriPDf(titulo.url)" class="mr-2" style="width: 20px; height: 20px; padding-left: 3px; border: solid #1a2843 1px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                             </a-button>
-                            <a-button @click="abriPDf(titulo.url)" class="mr-2" style="width: 20px; height: 20px; padding-left: 3px; border: solid #1a2843 1px;">
+                            <a-button @click="abrirEditar(titulo)" class="mr-2" style="width: 20px; height: 20px; padding-left: 3px; border: solid #1a2843 1px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1a2843" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
                             </a-button>
                             <a-button danger @click="eliminarTitulo(titulo.id)" style="width: 20px; height: 20px; padding-left: 3px;">
@@ -105,8 +105,8 @@
 
                 <a-col :xs="24" :sm="24" :md="24" :lg="6">
                     <label>fec expedición<span style="color:red;">*</span></label>
-                    <a-form-item name="fec_expedicion" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
-                        <a-date-picker style="width: 100%;" v-model:value="form.fec_expedicion" format="DD-MM-YYYY"/>
+                        <a-form-item name="fec_expedicion" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                        <a-date-picker style="width: 100%;" v-model:value="form.fec_expedicion" format="DD/MM/YYYY"/>
                     </a-form-item>
                 </a-col>
 
@@ -135,7 +135,7 @@
                     style="margin-top: 16px"
                     @click="cargarDatos"
                 >
-                    {{ loading ? 'Subiendo...' : 'Comenzar carga' }}
+                    {{ loading ? 'Subiendo...' : 'Guardar datos' }}
                 </a-button>
             </div>
         </template>
@@ -167,10 +167,26 @@ import { message, Upload, Button } from 'ant-design-vue';
 import axios from 'axios';
 const baseUrl = window.location.origin;
 import { format, parse } from 'date-fns';
+import dayjs from 'dayjs';
+import 'dayjs/locale/es';
+dayjs.locale('es');
 
 const abrirModal = () => {
     modaltitulo.value = true;
 }
+
+const abrirEditar = (item) => {
+    form.id = item.id;
+    form.descripcion=  item.denominacion;
+    form.institucion = item.institucion;
+    if(item.fec_expedicion){ form.fec_expedicion = dayjs(item.fec_expedicion) }
+    pdfUrl.value = baseUrl+'/'+item.url;
+    //form.fec_expedicion = item.,
+    form.reg_sunedu = item.reg_sunedu;
+    form.tipo = item.id_tipo;
+    modaltitulo.value = true;
+}
+
 
 const modaltitulo = ref(false);
 const titulos = ref([]);
@@ -258,7 +274,8 @@ const handleRemove = () => {
 
 const cargarDatos = async () => {
     const formData = new FormData();
-    formData.append('file', form.fileList[0]);
+    if(form.fileList[0]){ formData.append('file', form.fileList[0]);}
+    if(form.id != null ){ formData.append('id', form.id)};
     formData.append('descripcion', form.descripcion);
     formData.append('reg_sunedu', form.reg_sunedu);
     formData.append('institucion', form.institucion);
@@ -280,6 +297,7 @@ const cargarDatos = async () => {
         });
         modaltitulo.value = false;
         loading.value = false;
+        form.value = false;
         message.success('¡Archivo PDF cargado exitosamente!');
         await getTitulos();
     } catch (error) {
