@@ -1,0 +1,1 @@
+import{_ as o}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{o as s,c as t,d as e}from"./app-DfjDEb4w.js";const c={},r={class:"grid bg-gray-50"},a=e("div",{class:"container lg:px-12 mx-auto py-2"},[e("div",{class:"text-center"}," OTI-2024 Totos los derechos resevados ")],-1),n=[a];function _(d,i){return s(),t("div",r,n)}const m=o(c,[["render",_]]);export{m as default};

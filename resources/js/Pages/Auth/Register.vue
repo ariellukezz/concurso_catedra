@@ -54,7 +54,7 @@ const submit = () => {
                     Registrarme
                 </PrimaryButton>
 
-                <Link :href="route('login')" class="mt-4 text-sm text-gray-600 underline hover:text-gray-900">
+                <Link :href="route('login')" class="mt-4 mb-2 text-sm text-gray-600 underline hover:text-gray-900">
                     ¿Ya estas registrado?
                 </Link>
             </div>
