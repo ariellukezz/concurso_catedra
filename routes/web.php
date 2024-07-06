@@ -36,7 +36,7 @@ Route::get('/', function () {
 });
 
 Route::get('/', function () { 
-    return Inertia::render('Dashboard');
+    return Inertia::render('Publico/index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
