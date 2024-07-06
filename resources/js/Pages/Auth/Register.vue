@@ -32,8 +32,8 @@ const submit = () => {
         <form @submit.prevent="submit">
 
             <div class="mt-3">
-                <InputLabel for="Correo" value="Correo" />
-                <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autocomplete="username" />
+                <InputLabel for="Dni" value="Dni" />
+                <TextInput id="email" class="mt-1 block w-full" v-model="form.email" required autocomplete="username" />
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 

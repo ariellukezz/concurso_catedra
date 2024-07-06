@@ -274,7 +274,7 @@ const handleRemove = () => {
 
 const cargarDatos = async () => {
     const formData = new FormData();
-    if(form.fileList[0]){ formData.append('file', form.fileList[0]);}
+    if(form.fileList[0]){ formData.append('file', form.fileList[0]); }
     if(form.id != null ){ formData.append('id', form.id)};
     formData.append('descripcion', form.descripcion);
     formData.append('reg_sunedu', form.reg_sunedu);

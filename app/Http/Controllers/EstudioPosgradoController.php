@@ -64,7 +64,7 @@ class EstudioPosgradoController extends Controller
     }
 
     public function getEstudios(){
-        $res = DB::select("SELECT esp.id, esp.institucion, esp.semestres, esp.denominacion, esp.fec_inicio, esp.fec_fin, 
+        $res = DB::select("SELECT esp.id, esp.institucion, esp.semestres, esp.denominacion, 
             esp.id_tipo, esp.url, tact.descripcion AS tipo_nombre
             FROM estudiosposgrado esp
             JOIN tipos_estudio_actualizacion tact ON esp.id_tipo = tact.id

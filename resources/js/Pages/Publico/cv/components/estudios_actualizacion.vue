@@ -16,7 +16,7 @@
                             <div class="ml-8 mb-1">
                                 <div> <span class="" style="font-size:.9rem;"> {{ item.denominacion }}</span></div>
                                 <div> {{ item.institucion }} </div>
-                                <div class="text-start"> De {{ voltearFecha(item.fec_inicio) }} a {{ voltearFecha(item.fec_fin) }} </div>
+                                <!-- <div class="text-start"> De {{ voltearFecha(item.fec_inicio) }} a {{ voltearFecha(item.fec_fin) }} </div> -->
                                 <div v-if="item.semestres"class="italic"> <span class="font-bold" style="color: gray"> {{ item.semestres }} semestres </span> </div>
                             </div>
                         </div>
@@ -83,19 +83,19 @@
                     </a-form-item>
                 </a-col>
 
-                <a-col :xs="24" :sm="24" :md="24" :lg="12">
-                    <label>Fec inicio<span style="color:red;">*</span></label>
-                    <a-form-item name="fec_inicio" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
-                        <a-date-picker v-model:value="form.fec_inicio" format="DD/MM/YYYY" style="width: 100%;"/>
-                    </a-form-item>
-                </a-col>
+                    <!-- <a-col :xs="24" :sm="24" :md="24" :lg="12">
+                        <label>Fec inicio<span style="color:red;">*</span></label>
+                        <a-form-item name="fec_inicio" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                            <a-date-picker v-model:value="form.fec_inicio" format="DD/MM/YYYY" style="width: 100%;"/>
+                        </a-form-item>
+                    </a-col>
 
-                <a-col :xs="24" :sm="24" :md="24" :lg="12">
-                    <label>Fec fin<span style="color:red;">*</span></label>
-                    <a-form-item name="fec_fin" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
-                        <a-date-picker v-model:value="form.fec_fin" format="DD/MM/YYYY" style="width: 100%;"/>
-                    </a-form-item>
-                </a-col>
+                    <a-col :xs="24" :sm="24" :md="24" :lg="12">
+                        <label>Fec fin<span style="color:red;">*</span></label>
+                        <a-form-item name="fec_fin" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                            <a-date-picker v-model:value="form.fec_fin" format="DD/MM/YYYY" style="width: 100%;"/>
+                        </a-form-item>
+                    </a-col> -->
 
                 <a-col v-if="form.tipo == 1 || form.tipo == 2 || form.tipo == 3 || form.tipo == 4" :xs="24" :sm="24" :md="24" :lg="24">
                     <label>Semestres<span style="color:red;"></span></label>
@@ -265,10 +265,8 @@ const subirDatos = async () => {
     if(form.fileList[0]){ formData.append('file', form.fileList[0]);}
     if(form.id != null ){ formData.append('id', form.id)};
     formData.append('denominacion', form.denominacion);
-    formData.append('semestres', form.semestres);
+    if(form.semestres != null){ formData.append('semestres', form.semestres); }
     formData.append('institucion', form.institucion);
-    formData.append('fec_inicio',  format(new Date(form.fec_inicio), 'yyyy-MM-dd'));
-    formData.append('fec_fin',  format(new Date(form.fec_fin), 'yyyy-MM-dd'));
     formData.append('tipo', form.tipo);
     formData.append('file', form.fileList[0]);
     try {
