@@ -1,13 +1,15 @@
 <template>
     <a-card class="mx-2 my-2" >
-    <div>
+    <div class="mb-4">
         <div class="flex justify-between border-b-2" style="border-bottom: solid 2px #009DD1; padding-bottom: 8px;">
             <div><span style="font-weight: bold; font-size: 1rem; color:#009DD1;"> Seleccion de plaza </span></div>
-            <div style="margin-top: -5px;"><a-button @click="abrirModal()">Agregar</a-button></div>
         </div>
 
+        <div class="flex justify-between mt-6" style="align-items: center; height: 40px;">
+            <h1 class="font-bold text-md">Plaza seleccionada</h1>
+            <div style="margin-top: 0px;" class="mr-1"><a-button @click="abrirModal()">Seleccionar plaza</a-button></div>
+        </div>
         <div class="mt-5 mx-2 my-2">
-
 
             <div class="mb-5" v-for="titulo in inscripciones" :key="titulo">    
                 <div class="flex justify-between" style="margin: -5px -10px;">
@@ -21,8 +23,6 @@
                                 </div>           
                             )                
                         </div>
-
-
                     </div>
                     <div class="flex" style="margin-top: 0px;">
                         <a-button @click="abriPDf(titulo.url)" class="mr-2" style="width: 20px; height: 20px; padding-left: 3px; border: solid #1a2843 1px;">
@@ -39,10 +39,88 @@
             
             </div>
         </div>
+
     </div>
+
+    <a-table 
+        :columns="columnas" 
+        :data-source="form.plazas"
+        :key="id"
+        size="small"
+        :pagination="false"
+        style="scale: .7rem;"
+        > 
+            <template #bodyCell="{ column, index, record }">        
+                <template v-if="column.dataIndex === 'cursos'">
+                    <div v-if="record.cursos">
+                        <div v-for="(curso, index) in record.cursos.split(',')" :key="index">
+                            <ul>
+                                <li>{{ curso.trim() }}</li>
+                            </ul>
+                        </div>
+                    </div>                                            
+                </template>
+
+                <template v-if="column.dataIndex === 'opcion'">
+                    <div class="flex" style="justify-content: center;">
+                        <a-tag color="green">Seleccionado</a-tag>
+                    </div>
+                </template>
+    
+            </template>
+    </a-table>
+
+
+    <div class="flex justify-between" style="align-items: center; height: 40px;">
+            <h1 class="font-bold">Plaza adicional seleccionadas</h1>
+            <div style="margin-top: 0px;" class="mr-1"><a-button @click="abrirModal2()">Seleccionar plaza </a-button></div>
+    </div>
+
+    <a-table 
+        v-if="plazas_seleccionadas2 != null || plazas_seleccionadas2 == []"
+        :columns="columnas" 
+        :data-source="plazas_seleccionadas2"    
+        :key="id"
+        size="small"
+        :pagination="false"
+        style="scale: .7rem;"
+        > 
+        <template #bodyCell="{ column, index, record }">        
+            <template v-if="column.dataIndex === 'cursos'">
+                <div v-if="record.cursos">
+                    <div v-for="(curso, index) in record.cursos.split(',')" :key="index">
+                        <ul>
+                            <li>{{ curso.trim() }}</li>
+                        </ul>
+                    </div>
+                </div>                                            
+            </template>
+
+            <template v-if="column.dataIndex === 'opcion'">
+                <div class="flex" style="justify-content: center;">
+                    <a-tag color="green">Seleccionado</a-tag>
+                </div>
+            </template>
+
+        </template>
+    </a-table>
+
+
+    <div class="mt-6">
+        <div class="flex justify-end" v-if="plazas_seleccionadas">
+            <a-button 
+                @click="save()"
+                style="background: #009DD1; color: white; height: 42px;" 
+                :disabled="plazas_seleccionadas.length === 0"
+            >
+                FINALIZAR INSCRIPCIÓN
+            </a-button>
+        </div>
+    </div>
+
     </a-card>
     <div class="px-4">
-        <a-modal v-model:open="modaltitulo" width="580px" title="Seleccion de plaza">
+        <a-modal v-model:open="modaltitulo" :footer="false" width="680px" title="Seleccion de plaza">
             <a-form
                 ref="formDatos"
                 name="form"
@@ -67,115 +145,229 @@
                     </a-col>
 
                     <a-col :xs="24" :sm="24" :md="24" :lg="24">
-                        <label>Plaza(s)<span style="color:red;">*</span></label>
-                        <a-form-item name="plazas" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                        <a-table 
+                            :columns="columnas" 
+                            :data-source="plazas"
+                            :key="id"
+                            size="small"
+                            :pagination="false"
+                            style="scale: .7rem;"
+                            > 
+                                <template #bodyCell="{ column, index, record }">        
+                                    <template v-if="column.dataIndex === 'cursos'">
+                                        <div v-if="record.cursos">
+                                            <div v-for="(curso, index) in record.cursos.split(',')" :key="index">
+                                                <ul>
+                                                    <li>{{ curso.trim() }}</li>
+                                                </ul>
+                                            </div>
+                                        </div>                                            
+                                    </template>
+
+                                    <template v-if="column.dataIndex === 'opcion'">
+                                        <div class="flex" style="justify-content: center;">
+                                            <a-button @click="seleccionar1(record)">Seleccionar</a-button>
+                                        </div>
+                                    </template>
+                        
+                                </template>
+                        </a-table>
+                    </a-col>
+
+                </a-row>
+            </a-form>
+        </a-modal>
+
+
+        <a-modal v-model:open="modaltitulo2" :footer="false" width="680px" title="Seleccion de plaza adicional">
+
+            <a-form
+                ref="formDatos"
+                name="form"
+                :model="form" 
+                :rules="formRules"
+            >
+                <a-row :gutter="16">
+                    <a-col :xs="24" :sm="24" :md="24" :lg="24">
+                        <label>Programa<span style="color:red;">*</span></label>
+                        <a-form-item name="programa" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
+                            
                             <a-select
                                 ref="select"
-                                v-model:value="form.plazas"
+                                v-model:value="form.programa"
                                 style="width: 100%"
-                                mode="multiple"
-                                :options="plazas"
+                                :options="programas"
                                 @focus="focus"
-                                @change="selecionarPlaza"
+                                @change="selecionarPrograma"
+                                :disabled="modaltitulo2 == true"
                             >
                             </a-select>
                         </a-form-item>
                     </a-col>
 
+                    <a-col :xs="24" :sm="24" :md="24" :lg="24">
+                        <a-table 
+                            :columns="columnas" 
+                            :data-source="plazas"
+                            :key="id"
+                            size="small"
+                            :pagination="false"
+                            style="scale: .7rem;"
+                            > 
+                                <template #bodyCell="{ column, index, record }">        
+                                    <template v-if="column.dataIndex === 'cursos'">
+                                        <div v-if="record.cursos">
+                                            <div v-for="(curso, index) in record.cursos.split(',')" :key="index">
+                                                <ul>
+                                                    <li>{{ curso.trim() }}</li>
+                                                </ul>
+                                            </div>
+                                        </div>                                            
+                                    </template>
+
+                                    <template v-if="column.dataIndex === 'opcion'">
+                                        <div class="flex" style="justify-content: center;">
+                                            <a-button @click="seleccionar2(record)">Seleccionar</a-button>
+                                        </div>
+                                    </template>
+                        
+                                </template>
+                        </a-table>
+
+
+                    </a-col>
+
                 </a-row>
             </a-form>
-            <template #footer>
-                <div class="flex justify-end">
-                    <a-button
-                        type="primary"
-                        :loading="loading"
-                        style="margin-top: 16px"
-                        @click="save"
-                    >
-                        {{ loading ? 'Subiendo...' : 'Inscribirme' }}
-                    </a-button>
-                </div>
-            </template>
         </a-modal>
-    
     </div>
+
+
     
 </template>
         
 <script setup>
 import { ref, reactive, watch } from 'vue';
-import { message } from 'ant-design-vue';
+import { message, notification } from 'ant-design-vue';
 import axios from 'axios';
 const baseUrl = window.location.origin;
 import { format, parse } from 'date-fns';
 
 const modaltitulo = ref(false);
+const modaltitulo2 = ref(false);
 const inscripciones = ref([]);
+const plazas_seleccionadas = ref([]);
+const plazas_seleccionadas2 = ref([]);
 
 const pdfItem = ref(null);
 
 const form = reactive({
     id: null,
     programa: null,
-    plazas: []
+    plazas: [],
 });
 
 const abrirModal = () => {
     modaltitulo.value = true;
 };
 
+const abrirModal2 = () => {
+    modaltitulo2.value = true;
+};
+
 const seleccionarPrograma = (value) => {
     console.log(`Tipo seleccionado: ${value}`);
 };
 
-const eliminar = async (id) => {
-    try {
-        const res = await axios.get(`/eliminar-bonificacion/${id}`);
-        if (res.data.estado) {
-            await getInscripciones();
-        } else {
-            console.error("No se pudo eliminar el título.");
-        }
-    } catch (error) {
-        console.error("Error al eliminar el título:", error);
-    }
-};
+// const eliminar = async (id) => {
+//     try {
+//         const res = await axios.get(`/eliminar-bonificacion/${id}`);
+//         if (res.data.estado) {
+//             await getInscripciones();
+//         } else {
+//             console.error("No se pudo eliminar el título.");
+//         }
+//     } catch (error) {
+//         console.error("Error al eliminar el título:", error);
+//     }
+// };
 
 const getInscripciones = async () => {
     try {
         const response = await axios.get('/get-inscripciones');
         if (response.data.datos) {
-            console.log(response.data.datos);
-            inscripciones.value = response.data.datos;
+            form.plazas = response.data.datos.P1;
+            plazas_seleccionadas2.value = response.data.datos.P2;
+            // form.programa = response.data.datos.id_escuela;
         } else {
-            console.error("No se encontraron títulos.");
+            console.error("No se encontraron inscripciones.");
         }
     } catch (error) {
         console.error("Error en la solicitud de títulos:", error);
     }
 };
+
 
 const plazas = ref([]);
 
 const getPlazas = async () => {
     try {
         const response = await axios.get('/get-plazas/'+form.programa);
-        if (response.data.estado) {
-            plazas.value = response.data.datos;
-        }
+        if (response.data.estado) {  plazas.value = response.data.datos; }
     } catch (error) {
         console.error("Error en la solicitud de títulos:", error);
     }
 };
 
+const seleccionar1 = async (item) => {
+  if (!plazas_seleccionadas.value.includes(item.id)) {
+    if (form.plazas.length > 0) {
+      form.plazas.splice(0, 1, item);
+      plazas_seleccionadas.value.splice(0, 1, item.id);
+      plazas_seleccionadas2.value = [];
+    } else {
+      form.plazas.push(item);
+      plazas_seleccionadas.value.push(item.id);
+    }
+  }
+  modaltitulo.value = false;
+};
+
+const seleccionar2 = async (item) => {
+    const result = plazas_seleccionadas.value.includes(item.id);
+
+    if (result) {
+        message.error('Error - ¡Debe seleccionar una plaza Diferente!');        
+    } else {
+        if( plazas_seleccionadas.value.length > 0){
+            if (!plazas_seleccionadas2.value.includes(item.id)) {
+                if (plazas_seleccionadas2.value.length > 0) {
+                    plazas_seleccionadas2.value.splice(0, 1, item);
+                } else {
+                    plazas_seleccionadas2.value.push(item);
+                }
+            }
+            modaltitulo2.value = false;
+        }else{
+            message.error('Error - ¡Debe tener elejida una Plaza, para elegir una plaza Adicional!');
+        }        
+    }
+
+
+};
+
+
 const loading = ref(false);
 const uploadProgress = ref(0);
-
 
 const save = async () => {
     const formData = new FormData();
     formData.append('programa', form.programa);
-    formData.append('plazas', form.plazas);
+    formData.append('plaza', plazas_seleccionadas.value);
+    if (plazas_seleccionadas2.value[0]) {
+        formData.append('plaza_adicional', plazas_seleccionadas2.value[0].id);
+    }
+
     try {
         loading.value = true;
         uploadProgress.value = 0;
@@ -238,6 +430,13 @@ const programas = ref([
     { value: 36, label: "INGENIERIA DE SISTEMAS" }
 ]);
 
+const columnas = [
+  { title: 'PD', dataIndex: 'pd', },
+  { title: 'Tipo contrato', dataIndex: 'tipo_contrato',},
+  { title: 'Cursos', dataIndex: 'cursos', },
+  { title: 'Tipo plaza', dataIndex: 'tipo_plaza', },
+  { title: '', dataIndex: 'opcion', },
+];
 
 getInscripciones();
 

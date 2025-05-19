@@ -36,7 +36,7 @@ Route::get('/', function () {
 });
 
 Route::get('/', function () { 
-    return Inertia::render('Publico/index');
+    return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -126,6 +126,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
+Route::get('/invitaciones', [PDFController::class, 'generarInvitacionesPDF']);  
 Route::get('/pdf', [PDFController::class, 'generatePDF']);
 Route::get('/donwload-anexo/{cod}', [PDFController::class, 'downloadAnexos']);
 

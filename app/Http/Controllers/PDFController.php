@@ -10,6 +10,55 @@ use DB;
 
 class PDFController extends Controller
 {
+
+    public function generarInvitacionesPDF()
+    {
+        $data = [];
+        $imagePath = public_path('imagenes/logotiny.png');
+        $imagePath2 = public_path('imagenes/logo_concurso.jpg');
+
+//        $res = DB::select('SELECT id, dni, CONCAT(nombres," ",paterno," ",materno) AS nombre, escuela FROM docentes_nombrados WHERE id > 0 ;');
+
+        // foreach($res as $item){
+
+        //     $ldate = date('d');
+        //     $lanio = date('Y');
+        //     $id = $item->id;
+        //     $dni = $item->dni;
+        //     $nombre = $item->nombre;
+        //     $escuela = $item->escuela;
+        //     $pdf = PDF::loadView('Invitacion/Invitacion', compact('ldate','lanio','dni','nombre','escuela','id'));
+        //     $pdf->setPaper('A5', 'landscape');
+        //     $pdf->output();
+        //     $output = $pdf->output();
+        //     file_put_contents(public_path().'/documentos/invitaciones/general/'.$id."-".$dni."-".$nombre.'.pdf', $output);
+
+        // }
+
+        //return $data;
+        //$data['desc'] = $desc;
+        // $data['logo_unap'] = $imagePath;
+        // $data['logo_concurso'] = $imagePath2;
+ 
+        // $pdf = PDF::loadView('pdf.invitacion.invitacion2', $data);
+        // $pdf->setPaper('A4', 'landscape');
+        // $output = $pdf->output();
+        // file_put_contents(public_path().'/invitacion/invitacion.pdf', $output);
+
+        $data['logo_unap'] = $imagePath;
+        $data['logo_concurso'] = $imagePath2;
+ 
+        $pdf = PDF::loadView('pdf.invitacion.invitacion2', $data);
+        $pdf->setPaper('A4');
+        $output = $pdf->output();
+        file_put_contents(public_path().'/invitacion/invitacion.pdf', $output);
+
+        return $pdf->stream('invitaciones.pdf');
+    }
+
+
+
+
     public function generatePDF()
     {
         $data = [];

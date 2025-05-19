@@ -18,12 +18,15 @@
     </div>
 
     <div class="flex justify-center mt-4">
-      <div class="mr-3">
+      <!-- <div class="mr-3">
         <a-button style=" height: 38px; border: solid 1px #00a0c8; color: #00a0c8; "> Ver reglamento</a-button>
-      </div>
-      <div>
-        <a-button style=" height: 38px; background: #00a0c8; color:white; border:none;" > Inscribirme</a-button>
-      </div>
+      </div> -->
+      <ResponsiveNavLink :href="route('cv')" :class="[route().current('inicio')? 'activado':'']">
+        <div>
+          <a-button style=" height: 44px; background: #00a0c8; color:white; border:none; width: 190px; font-size: 1.2rem;"> Inscribirme</a-button>
+        </div>
+      </ResponsiveNavLink>
+
     </div>
   </div>
 </div>
@@ -35,6 +38,7 @@
 <script setup>
 import Layout from '@/Layouts/Formulario/FormularioLayout.vue';
 import { Link } from '@inertiajs/vue3';
+import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
 </script>
 
 <style scoped>

@@ -44,8 +44,6 @@
     </div>
     </a-card>
 
-
-
     <a-modal v-model:visible="modal" width="700px" title="Datos personales" centered :footer="false"  :maskClosable="false" @ok="handleOk" @afterOpen="handleModalOpen">
     <div class="flex justify-center mt-6" style="">
         <div class="flex justify-center">
@@ -177,7 +175,7 @@
 
 
                         <a-col :xs="24" :sm="12" :md="12" :lg="8">
-                            <label>celular<span style="color:red;">*</span></label>
+                            <label>Celular<span style="color:red;">*</span></label>
                             <a-form-item name="celular" :rules="[{ required: true, message: 'Este campo es obligatorio' }]">
                             <a-input v-model:value="form.celular" style="height: 32px;">
                                 <template #suffix>
@@ -185,6 +183,20 @@
                                 </a-input>
                             </a-form-item>
                         </a-col>
+                        <a-col :xs="24" :sm="24" :md="24" :lg="24">
+                                <label>Correo electrónico</label>
+                                <a-form-item
+                                    name="correo"
+                                    :rules="[
+                                        { required: true, message: 'Ingresa un correo valido', trigger: 'change'},
+                                        { type: 'email', message: 'Ingresa un correo valido'}]"
+                                >
+                                    <a-input v-model:value="form.correo">
+                                        <template #suffix>
+                                        </template>
+                                        </a-input>
+                                </a-form-item>
+                            </a-col>
 
                     </a-row>
 
@@ -213,18 +225,13 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 dayjs.locale('es');
-const residencia = ref(null)
-const redseleccionado = ref(null)
+
 const buscarUbigeo = ref(null)
 const ubigeoseleccionado = ref(null)
-const buscarColegio = ref(null)
 const modalAviso = ref(false);
 const modal = ref(false);
 const ubigeos = ref([]);
-const buscarC = ref(null)
-const colegios = ref([])
 const formDatos = ref();
-const loading = ref(false)
 const loadingdowload = ref(false);
 const inscrito = ref(false);
 const form = reactive({  
@@ -237,6 +244,7 @@ const form = reactive({
     sexo: null, 
     fec_nac:'',
     celular:'',
+    correo:'',
     ubigeo:'',
     terminos:false
 });

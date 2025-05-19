@@ -9,7 +9,7 @@ class PlazaController extends Controller
 {
     public function getPlazas($escuela){
 
-        $res = DB::select("SELECT id as value, contrato as label FROM plaza WHERE id_escuela = $escuela AND estado = 1");
+        $res = DB::select("SELECT id, pd, contrato AS tipo_contrato, cursos, tipo as tipo_plaza FROM plaza WHERE id_escuela = 7 AND estado = 1");
     
         $this->response['estado'] = !empty($res);
         $this->response['datos'] = $res;

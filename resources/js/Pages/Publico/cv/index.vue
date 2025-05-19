@@ -4,7 +4,6 @@
 <div class="grid"  style="height: calc(100vh - 115px);">
   <div class="container lg:px-12 mx-auto">
     <div>
-      <div><Descripcion/> </div>    
       <div><DatosPersonales/></div>    
       <div><Titulos/> </div>
       <div><Estudios/> </div>
@@ -30,7 +29,6 @@
 <script setup>
 
 import Layout from '@/Layouts/Formulario/FormularioLayout.vue';
-import Descripcion from './components/descripcion.vue';
 import DatosPersonales from './components/datos_personales.vue';
 import Titulos from './components/titulos.vue';
 import Estudios from './components/estudios_actualizacion.vue';
@@ -44,6 +42,5 @@ import Proyeccion from './components/proyeccion.vue';
 import Bonificacion from './components/bonificacion.vue';
 import Inscripcion from './components/inscripcion.vue';
 import Footer from './components/footer.vue';
-
 
 </script>

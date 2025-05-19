@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="flex h-screen bg-gray-100"> 
-        <!-- <Navigation :style="{ 'width': sidewidth }" style="z-index: 1; transition: all 0.3s ease;"/> -->
+        <NavigationMobile  :style="{ 'width': sidewidth }" style="z-index: 1; transition: all 0.3s ease;"/>
         <div class="flex flex-col flex-1 w-full">
           <TopMenu :usuario="usu"/>
           <div> 
@@ -23,45 +23,21 @@
   <script setup>
   // import Navigation from './Navigation.vue';
   import TopMenu from "./HeaderFormulario.vue";
-  //import NavigationMobile from './NavigationMobile.vue';
+  import NavigationMobile from './NavigationMobile.vue';
   import {ref, onMounted, watch} from 'vue'
   
   const sidewidth = ref('230px')
   const margin = ref('0px')
   
-  const sidechange = () => {
-    if( sidewidth.value === '0px'){
-      sidewidth.value = '0px';
-      margin.value = '0px';
-    }else{
-      sidewidth.value = '0px';
-      margin.value = '0px';
-    }
-  }
   const usu = ref(null) 
   const getUsuario =  async () => {
     let res = await axios.get("/get-usuario");
     usu.value = res.data.datos;
   }
   
-  onMounted(() => {
-    getUsuario();
-    const updateSidewidth = () => {
-      if (window.innerWidth < 768) {
-        sidewidth.value = '0px';
-      } else {
-        sidewidth.value = '0px';
-      }
-    };
-    updateSidewidth();
-    window.addEventListener('resize', updateSidewidth);
-    
-    watch(() => {
-      return () => {
-        window.removeEventListener('resize', updateSidewidth);
-      };
-    });
-  });
+onMounted(() => {
+  getUsuario();
+});
   
 </script>
 <style scoped>

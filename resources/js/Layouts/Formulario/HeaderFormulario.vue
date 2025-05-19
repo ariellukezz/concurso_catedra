@@ -10,10 +10,7 @@
                   Inicio
                 </Link>
                 <Link :href="route('cv')" :class="[route().current('cv') ? 'item-header-activado' : 'item-header-desactivado']">
-                  <span>Resultados</span>
-                </Link>
-                <Link v-if="usuario.usuario" :href="route('cv')" :class="[route().current('cv') ? 'item-header-activado' : 'item-header-desactivado']">
-                  Inscribirme
+                  <span>Inscribirme</span>
                 </Link>
               </div>
             </div>
@@ -61,14 +58,8 @@
         </a-dropdown>
       </div>
 
-      <div class="flex mt-0" v-else>
-        <div class="flex menux">
-          <Link :href="route('cv')" :class="[route().current('cv') ? 'item-header-activado' : 'item-header-desactivado']">
-            Inscribirme
-          </Link>
-          <Link :href="route('register')" :class="[route().current('register') ? 'item-header-activado' : 'item-header-desactivado']">
-            <div class="flex">Registrarme</div>
-          </Link>
+      <div v-else class="flex mt-0">
+        <div class="flex menux justify-end">
           <Link :href="route('login')" :class="[route().current('login') ? 'item-header-activado' : 'item-header-desactivado']">
             Ingresar
           </Link>
